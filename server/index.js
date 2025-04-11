@@ -9,8 +9,8 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
     origin: process.env.NODE_ENV === "development"
-        ? process.env.LIVE_SERVE
-        : process.env.LOCAL_SERVER,
+        ? process.env.LOCAL_SERVER
+        : process.env.LIVE_SERVE,
     credentials: true
 }))
 
