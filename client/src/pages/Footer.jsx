@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Footer = ({ isDark }) => {
     const [showModal, setShowModal] = useState(false);
-    const [Login, { isSuccess, isLoading, isError }] = useAdminLoginMutation()
+    const [Login, { isSuccess, isLoading, isError, error }] = useAdminLoginMutation()
     const navigate = useNavigate()
     const handleMouseDown = (e) => {
         if (e.detail > 1) e.preventDefault(); // blocks double-click
@@ -96,7 +96,7 @@ const Footer = ({ isDark }) => {
             >
                 {/* Gradient Top Border */}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500" />
-
+                {isError && JSON.stringify(error, null, 2)}
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
                     {/* Footer Text */}
                     <p
