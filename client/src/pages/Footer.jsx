@@ -33,7 +33,7 @@ const Footer = ({ isDark }) => {
     useEffect(() => {
         if (isSuccess) {
             toast.success("✅ Login Success! .", {
-                duration: 2000,
+                duration: 1000,
                 style: {
                     background: 'linear-gradient(to right, #11998e, #38ef7d)', // rich green gradient
                     color: '#ffffff',
@@ -51,8 +51,8 @@ const Footer = ({ isDark }) => {
     }, [isSuccess]);
     useEffect(() => {
         if (isLoading) {
-            toast.loading("Please wait...", {
-                duration: 1000, // auto-close after 4 seconds (optional)
+            toast.info("Please wait...", {
+                duration: 1000,
                 style: {
                     background: 'linear-gradient(to right, #36d1dc, #5b86e5)', // sky blue gradient
                     color: '#ffffff',
@@ -70,7 +70,7 @@ const Footer = ({ isDark }) => {
     useEffect(() => {
         if (isError) {
             toast.error("❌ Something went wrong!", {
-                duration: 2000,
+                duration: 1000,
                 style: {
                     background: 'linear-gradient(to right, #e52d27, #b31217)', // rich red gradient
                     color: '#ffffff',

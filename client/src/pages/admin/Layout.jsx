@@ -51,6 +51,7 @@ const Sidebar = ({ isDark }) => {
     useEffect(() => {
         if (isSuccess) {
             toast.success("✅Admin Logout", {
+                duration: 1000,
                 style: {
                     background: 'linear-gradient(to right, #1f1c2c, #928dab)',
                     color: '#ffffff',
@@ -85,7 +86,7 @@ const Sidebar = ({ isDark }) => {
     useEffect(() => {
         if (isError) {
             toast.error("❌ Something went wrong!", {
-                duration: 2000,
+                duration: 1000,
                 style: {
                     background: 'linear-gradient(to right, #e52d27, #b31217)', // rich red gradient
                     color: '#ffffff',
