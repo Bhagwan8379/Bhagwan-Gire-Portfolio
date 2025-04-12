@@ -6,29 +6,29 @@ const Auth = require("../model/Auth")
 const { CheckEmpty } = require("../utils/CheckEmpty")
 
 
-// exports.RegisterAdmin = expressAsyncHandler(async (req, res) => {
-//     const { name, email, password, mobile } = req.body
-//     const { isError, error } = CheckEmpty({ name, email, password })
-//     if (isError) {
-//         return res.status(400).json({ message: "All Fields Required", error })
-//     }
-//     if (!validator.isEmail(email)) {
-//         return res.status(400).json({ message: "Enter a Valid Email" })
-//     }
-//     if (!validator.isStrongPassword(password)) {
-//         return res.status(400).json({ message: "Provide Strong Password" })
-//     }
-//     if (mobile && !validator.isMobilePhone(mobile, "en-IN")) {
-//         return res.status(400).json({ message: "Invalid Mobile Number" })
-//     }
-//     const isFound = await Auth.findOne({ $or: [{ email }, { mobile }] })
-//     if (isFound) {
-//         return res.status(400).json({ message: "Admin Already Registered." })
-//     }
-//     const hash = await bcrypt.hash(password, 10)
-//     const result = await Auth.create({ name, email, password: hash, mobile })
-//     res.status(200).json({ message: "Register Admin Success", data: result })
-// })
+exports.RegisterAdmin = expressAsyncHandler(async (req, res) => {
+    const { name, email, password, mobile } = req.body
+    const { isError, error } = CheckEmpty({ name, email, password })
+    if (isError) {
+        return res.status(400).json({ message: "All Fields Required", error })
+    }
+    if (!validator.isEmail(email)) {
+        return res.status(400).json({ message: "Enter a Valid Email" })
+    }
+    if (!validator.isStrongPassword(password)) {
+        return res.status(400).json({ message: "Provide Strong Password" })
+    }
+    if (mobile && !validator.isMobilePhone(mobile, "en-IN")) {
+        return res.status(400).json({ message: "Invalid Mobile Number" })
+    }
+    const isFound = await Auth.findOne({ $or: [{ email }, { mobile }] })
+    if (isFound) {
+        return res.status(400).json({ message: "Admin Already Registered." })
+    }
+    const hash = await bcrypt.hash(password, 10)
+    const result = await Auth.create({ name, email, password: hash, mobile })
+    res.status(200).json({ message: "Register Admin Success", data: result })
+})
 
 exports.LoginAdmin = expressAsyncHandler(async (req, res) => {
     const { username, password } = req.body
