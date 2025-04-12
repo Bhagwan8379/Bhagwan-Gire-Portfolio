@@ -112,7 +112,7 @@ const Sidebar = ({ isDark }) => {
             Super Admin
         </h3>
 
-        <nav className="space-y-3">
+        <nav className="space-y-3 pt-3">
             <SidebarLink to="/admin" text="Dashboard" isDark={isDark} />
             <SidebarLink to="/admin/projects" text="Projects" isDark={isDark} />
             <SidebarLink to="/admin/education" text="Education" isDark={isDark} />
