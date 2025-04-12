@@ -32,7 +32,7 @@ exports.RegisterAdmin = expressAsyncHandler(async (req, res) => {
 
 exports.LoginAdmin = expressAsyncHandler(async (req, res) => {
     const { username, password } = req.body
-    console.log(username, password)
+    // console.log(username, password)
 
     const { isError, error } = CheckEmpty({ username, password })
     if (isError) {
