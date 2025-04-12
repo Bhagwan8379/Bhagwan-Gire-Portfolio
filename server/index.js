@@ -7,10 +7,13 @@ require("dotenv").config()
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
+
+const allowedOrigin = process.env.NODE_ENV === "development"
+    ? process.env.LOCAL_SERVER || "http://localhost:5000"
+    : process.env.LIVE_SERVER || "https://bhagwan-gire-portfolio.vercel.app"
+
 app.use(cors({
-    origin: process.env.NODE_ENV === "development"
-        ? process.env.LOCAL_SERVER
-        : process.env.LIVE_SERVER,
+    origin: allowedOrigin,
     credentials: true
 }))
 
