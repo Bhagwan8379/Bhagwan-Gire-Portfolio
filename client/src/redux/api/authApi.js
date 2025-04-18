@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { Meta } from "react-router-dom"
 
 export const authApi = createApi({
     reducerPath: "authApi",
@@ -21,16 +20,17 @@ export const authApi = createApi({
                 },
                 invalidatesTags: ["auth"]
             }),
-            AdminRegister: builder.mutation({
-                query: authData => {
-                    return {
-                        url: "/register-admin",
-                        method: "POST",
-                        body: authData
-                    }
-                },
-                invalidatesTags: ["auth"]
-            }),
+            // AdminRegister: builder.mutation({
+            //     query: authData => {
+            //         return {
+            //             url: "/register-admin",
+            //             method: "POST",
+            //             body: authData
+            //         }
+            //     },
+            //     invalidatesTags: ["auth"]
+            // }),
+
             AdminLogout: builder.mutation({
                 query: authData => {
                     return {

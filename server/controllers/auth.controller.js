@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken")
 const validator = require("validator")
 const Auth = require("../model/Auth")
 const { CheckEmpty } = require("../utils/CheckEmpty")
+const sendEmail = require("../utils/email")
 
 
 exports.RegisterAdmin = expressAsyncHandler(async (req, res) => {
@@ -49,7 +50,7 @@ exports.LoginAdmin = expressAsyncHandler(async (req, res) => {
     if (!verify) {
         return res.status(400).json({ message: "Password Not Matched.", error: "Your Password Do Not Matched" })
     }
-    const token = jwt.sign({ userId: isFound._id }, process.env.JWT_KEY, { expiresIn: "1d" })
+    const token = jwt.sign({ userId: isFound._id }, process.env.JWT_KEY, { expiresIn: "5h" })
     res.cookie("Admin", token, {
         maxAge: 1000 * 60 * 60 * 24,
         httpOnly: true
@@ -61,6 +62,7 @@ exports.LoginAdmin = expressAsyncHandler(async (req, res) => {
             email: isFound.email,
         }
     })
+
 })
 
 exports.logoutAdmin = expressAsyncHandler(async (req, res) => {

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { Moon, Sun, Menu, X, LogOut } from 'lucide-react';
+import { Moon, Sun, Menu, X } from 'lucide-react';
 import clsx from 'clsx';
 import { useAdminLogoutMutation } from '../../redux/api/authApi';
 import { toast } from 'sonner';
+
+export const ThemeContext = createContext();
 
 const Layout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -36,21 +38,22 @@ const Layout = () => {
                     toggleSidebar={toggleSidebar}
                     isSidebarOpen={isSidebarOpen}
                 />
-                {/* Add padding top to avoid navbar overlap */}
-                <div className="p-6 pt-20">
-                    <Outlet />
-                </div>
+                <ThemeContext.Provider value={{ isDark }}>
+                    <div className="p-6 pt-20">
+                        <Outlet />
+                    </div>
+                </ThemeContext.Provider>
             </div>
         </div>
     );
 };
 
 const Sidebar = ({ isDark }) => {
-    const [Logout, { isSuccess, isError, error, isLoading }] = useAdminLogoutMutation()
+    const [Logout, { isSuccess, isError, error, isLoading }] = useAdminLogoutMutation();
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success("✅Admin Logout", {
+            toast.success("✅ Admin Logout", {
                 duration: 1000,
                 style: {
                     background: 'linear-gradient(to right, #1f1c2c, #928dab)',
@@ -62,78 +65,81 @@ const Sidebar = ({ isDark }) => {
                     border: '1px solid #928dab',
                 },
             });
-
-
         }
     }, [isSuccess]);
+
     useEffect(() => {
         if (isLoading) {
             toast.info("Please wait...", {
-                duration: 500, // auto-close after 4 seconds (optional)
+                duration: 500,
                 style: {
-                    background: 'linear-gradient(to right, #36d1dc, #5b86e5)', // sky blue gradient
+                    background: 'linear-gradient(to right, #36d1dc, #5b86e5)',
                     color: '#ffffff',
                     borderRadius: '12px',
                     padding: '14px 24px',
                     fontWeight: 'bold',
                     fontSize: '16px',
-                    boxShadow: '0 6px 16px rgba(91, 134, 229, 0.4)', // soft blue glow
+                    boxShadow: '0 6px 16px rgba(91, 134, 229, 0.4)',
                     border: '1px solid #5b86e5',
                 }
-            })
-        } [isLoading]
+            });
+        }
     }, [isLoading]);
+
     useEffect(() => {
         if (isError) {
             toast.error("❌ Something went wrong!", {
                 duration: 1000,
                 style: {
-                    background: 'linear-gradient(to right, #e52d27, #b31217)', // rich red gradient
+                    background: 'linear-gradient(to right, #e52d27, #b31217)',
                     color: '#ffffff',
                     borderRadius: '12px',
                     padding: '14px 24px',
                     fontWeight: 'bold',
                     fontSize: '16px',
-                    boxShadow: '0 6px 16px rgba(229, 45, 39, 0.4)', // soft red glow
+                    boxShadow: '0 6px 16px rgba(229, 45, 39, 0.4)',
                     border: '1px solid #e52d27',
                 },
             });
         }
     }, [isError]);
 
-    return <div className={clsx('h-full transition-all duration-300 p-4 relative', {
-        'bg-gradient-to-b from-black via-gray-900 to-gray-800': isDark,
-        'bg-gradient-to-b from-rose-100 via-pink-50 to-yellow-50': !isDark,
-    })}>
-        <h3 className={clsx('text-xl font-extrabold tracking-wide uppercase mb-6 text-center', {
-            'text-yellow-400 drop-shadow-md': isDark,
-            'text-rose-700': !isDark,
+    return (
+        <div className={clsx('h-full transition-all duration-300 p-4 relative', {
+            'bg-gradient-to-b from-black via-gray-900 to-gray-800': isDark,
+            'bg-gradient-to-b from-rose-100 via-pink-50 to-yellow-50': !isDark,
         })}>
-            Super Admin
-        </h3>
+            <h3 className={clsx('text-xl font-extrabold tracking-wide uppercase mb-6 text-center', {
+                'text-yellow-400 drop-shadow-md': isDark,
+                'text-rose-700': !isDark,
+            })}>
+                Super Admin
+            </h3>
 
-        <nav className="space-y-3 pt-3">
-            <SidebarLink to="/admin" text="Dashboard" isDark={isDark} />
-            <SidebarLink to="/admin/projects" text="Projects" isDark={isDark} />
-            <SidebarLink to="/admin/education" text="Education" isDark={isDark} />
-            <SidebarLink to="/admin/emails" text="Emails" isDark={isDark} />
-            <SidebarLink to="/admin/contact" text="Contact Requests" isDark={isDark} />
-        </nav>
-        {error && JSON.stringify(error, null, 2)}
-        <div className="absolute bottom-6 left-0 w-full px-4">
-            <button
-                onClick={Logout}
+            <nav className="space-y-3 pt-3">
+                <SidebarLink to="/admin" text="Dashboard" isDark={isDark} />
+                <SidebarLink to="/admin/projects" text="Projects" isDark={isDark} />
+                <SidebarLink to="/admin/education" text="Education" isDark={isDark} />
+                <SidebarLink to="/admin/emails" text="Emails" isDark={isDark} />
+                <SidebarLink to="/admin/contact" text="Contact Requests" isDark={isDark} />
+            </nav>
 
-                className={clsx('w-full py-3 font-bold cursor-pointer rounded-xl shadow-lg transition-all duration-300', {
-                    'bg-gradient-to-r from-yellow-500 to-red-500 text-white hover:from-yellow-600 hover:to-red-600': isDark,
-                    'bg-gradient-to-r from-pink-400 to-red-400 text-white hover:brightness-110': !isDark,
-                })}
-            >
-                Logout
-            </button>
+            {error && <pre className="text-xs text-red-400 mt-4">{JSON.stringify(error, null, 2)}</pre>}
+
+            <div className="absolute bottom-6 left-0 w-full px-4">
+                <button
+                    onClick={Logout}
+                    className={clsx('w-full py-3 font-bold cursor-pointer rounded-xl shadow-lg transition-all duration-300', {
+                        'bg-gradient-to-r from-yellow-500 to-red-500 text-white hover:from-yellow-600 hover:to-red-600': isDark,
+                        'bg-gradient-to-r from-pink-400 to-red-400 text-white hover:brightness-110': !isDark,
+                    })}
+                >
+                    Logout
+                </button>
+            </div>
         </div>
-    </div>
-}
+    );
+};
 
 const SidebarLink = ({ to, text, isDark }) => (
     <Link
@@ -173,8 +179,7 @@ const AdminNavbar = ({ isDark, toggleTheme, toggleSidebar, isSidebarOpen }) => {
             <p className={clsx(
                 'text-lg font-extrabold tracking-wider text-transparent bg-clip-text',
                 'bg-gradient-to-r from-yellow-400 via-rose-500 to-red-600',
-                'drop-shadow-[0_1px_1px_rgba(255,255,255,0.2)] ',
-                'font-playfair'
+                'drop-shadow-[0_1px_1px_rgba(255,255,255,0.2)] font-playfair'
             )}>
                 👑 Super Admin
             </p>

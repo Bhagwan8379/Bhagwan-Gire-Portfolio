@@ -3,11 +3,18 @@ import { authApi } from "../api/authApi";
 
 const authSlice = createSlice({
     name: "authSlice",
-    initialState: { admin: JSON.parse(localStorage.getItem("Admin")) },
+    initialState: {
+        admin: JSON.parse(localStorage.getItem("Admin")),
+        layout: JSON.parse(localStorage.getItem("Layout"))
+    },
     reducers: {
         logoutAdmin: (state, { payload }) => {
             localStorage.removeItem("Admin")
             state.admin = null
+        },
+        changeLayout: (state, { payload }) => {
+            state.layout = payload
+            localStorage.setItem("Layout", JSON.stringify(payload))
         },
     },
 
@@ -22,5 +29,5 @@ const authSlice = createSlice({
 
 })
 
-export const { logoutAdmin } = authSlice.actions
+export const { logoutAdmin, changeLayout } = authSlice.actions
 export default authSlice.reducer

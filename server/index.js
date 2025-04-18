@@ -17,11 +17,14 @@ app.use(cors({
     credentials: true
 }))
 
+
 app.use("/api/gmail", require('./routes/gmail.routes'))  // ✅ Add this line  for google Oauth
+app.use("/api/contact", require('./routes/contacts.routes'))
 app.use("/api/auth", require('./routes/auth.routes'))
+app.use("/api/projects", require('./routes/project.routes'))
 
 app.use((req, res) => {
-    res.status(404).json({ message: "Resource Not Found" })
+    res.status(404).json({ message: "Resource Not Found 404" })
 })
 app.use((err, req, res, next) => {
     console.log(err)
@@ -32,3 +35,4 @@ mongoose.connection.once("open", () => {
     console.log("MONGO CONNECTED 🥭")
     app.listen(process.env.PORT, console.log("Server Running 🏃‍♀️"))
 })
+

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Dashboard from './pages/admin/Dashboard';
@@ -15,7 +15,7 @@ import Projects from './pages/admin/Projects';
 
 
 const App = () => {
-
+  const [isDark, setIsDark] = useState(true);
   return (
     <BrowserRouter>
       <ParticleCusrour />
@@ -27,7 +27,7 @@ const App = () => {
           <Route path='projects' element={<Projects />} />
           <Route path='education' element={<Education />} />
           <Route path='emails' element={<Emails />} />
-          <Route path='contact' element={<Contact />} />
+          <Route path='contact' element={<Contact isDark={isDark} />} />
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>

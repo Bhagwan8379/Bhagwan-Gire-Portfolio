@@ -14,7 +14,7 @@ const Footer = ({ isDark }) => {
 
 
     const handleMouseDown = (e) => {
-        if (e.detail > 1) e.preventDefault(); // blocks double-click
+        if (e.detail > 1) e.preventDefault();
     };
 
     const formik = useFormik({
@@ -94,59 +94,59 @@ const Footer = ({ isDark }) => {
         <>
             <footer
                 className={`py-10 relative z-10 transition-colors duration-300 border-t ${isDark
-                    ? 'bg-black/60 border-white/10 backdrop-blur-lg'
-                    : 'bg-white border-gray-200'
+                    ? 'bg-[#0e0e12] border-[#1f1f1f] text-green-200'
+                    : 'bg-[#f7f6ff] border-[#e2e2fa] text-violet-200'
                     }`}
             >
                 {/* Gradient Top Border */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500" />
-                {isError && JSON.stringify(error, null, 2)}
+
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-                    {/* Footer Text */}
                     <p
-                        className={`text-center md:text-left text-base font-medium tracking-wide ${isDark
-                            ? 'text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-indigo-300'
-                            : 'text-gray-700'
+                        className={`text-center md:text-left text-base font-semibold tracking-wide ${isDark
+                            ? 'bg-gradient-to-r from-indigo-400 via-sky-400 to-violet-500 text-transparent bg-clip-text'
+                            : 'bg-gradient-to-r from-violet-600 via-green-500 to-lime-400 text-transparent bg-clip-text'
                             }`}
                     >
                         © 2025 BHAGWAN GIRE. All rights reserved.
                     </p>
 
-                    {/* Social Icons */}
                     <div className="flex space-x-6 items-center">
-                        <a
-                            href="mailto:bhagwangire05@gmail.com"
-                            className={`transition duration-300 hover:scale-110 ${isDark ? 'text-purple-300 hover:text-white' : 'text-gray-600 hover:text-purple-600'}`}
-                        >
-                            <Mail size={22} />
-                        </a>
-                        <a
-                            href="https://github.com/Bhagwan8379"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`transition duration-300 hover:scale-110 ${isDark ? 'text-purple-300 hover:text-white' : 'text-gray-600 hover:text-purple-600'}`}
-                        >
-                            <Github size={22} />
-                        </a>
-                        <a
-                            href="https://www.linkedin.com/in/bhagwan-gire-84013a293/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`transition duration-300 hover:scale-110 ${isDark ? 'text-purple-300 hover:text-white' : 'text-gray-600 hover:text-purple-600'}`}
-                        >
-                            <Linkedin size={22} />
-                        </a>
+                        {[
+                            { icon: Mail, link: 'mailto:bhagwangire05@gmail.com' },
+                            { icon: Github, link: 'https://github.com/Bhagwan8379' },
+                            { icon: Linkedin, link: 'https://www.linkedin.com/in/bhagwan-gire-84013a293/' },
+                        ].map(({ icon: Icon, link }, i) => (
+                            <a
+                                key={i}
+                                href={link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={clsx(
+                                    'transition duration-300 hover:scale-110',
+                                    isDark
+                                        ? 'text-indigo-300 hover:text-white'
+                                        : 'text-violet-700 hover:text-green-600'
+                                )}
+                            >
+                                <Icon size={22} />
+                            </a>
+                        ))}
 
-                        {/* Admin Button */}
                         <button
                             onClick={() => setShowModal(true)}
-                            className={`ml-4 px-4 py-1.5 w-20 rounded-md cursor-pointer text-sm font-medium border ${isDark ? "bg-black border-black text-black" : "bg-white border-white text-white"}  transition-all duration-300`}
+                            className={clsx(
+                                'ml-4 px-4 py-1.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-300',
+                                isDark
+                                    ? ' text-black'
+                                    : 'text-slate-50'
+                            )}
                         >
                             Admin Login
                         </button>
                     </div>
                 </div>
             </footer>
+
 
             {/* Admin Login Modal */}
 
@@ -221,7 +221,7 @@ const Footer = ({ isDark }) => {
 
                             <button
                                 type="submit"
-                                className="w-full bg-gradient-to-r from-green-400 to-lime-500 text-white py-2 rounded-md hover:from-green-500 hover:to-lime-600 transition-all"
+                                className="w-full cursor-pointer bg-gradient-to-r from-green-400 to-lime-500 text-white py-2 rounded-md hover:from-green-500 hover:to-lime-600 transition-all"
                             >
                                 Login
                             </button>

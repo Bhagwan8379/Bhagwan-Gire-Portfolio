@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as yup from 'yup';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
+import { useSendMessageMutation } from '../redux/api/contactApi';
+import { toast } from 'sonner';
 
 const Contact = ({ isDark }) => {
+    const [SendMessage, { isSuccess, isError, isLoading, error }] = useSendMessageMutation()
+
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -16,7 +20,7 @@ const Contact = ({ isDark }) => {
             message: yup.string().required("Enter Message"),
         }),
         onSubmit: (values, { resetForm }) => {
-            console.log(values);
+            SendMessage(values)
             resetForm();
         },
     });
@@ -30,6 +34,61 @@ const Contact = ({ isDark }) => {
             formik.touched[field] && formik.errors[field] && "border-red-500"
         );
 
+    useEffect(() => {
+        if (isLoading) {
+            toast.info("Please wait...", {
+                duration: 500,
+                style: {
+                    background: 'linear-gradient(to right, #36d1dc, #5b86e5)', // sky blue gradient
+                    color: '#ffffff',
+                    borderRadius: '12px',
+                    padding: '14px 24px',
+                    fontWeight: 'bold',
+                    fontSize: '16px',
+                    boxShadow: '0 6px 16px rgba(91, 134, 229, 0.4)', // soft blue glow
+                    border: '1px solid #5b86e5',
+                    animation: 'fadeInUp 0.6s ease-out',
+                }
+            })
+        } [isLoading]
+    })
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("✅ Message Send Success! .", {
+                duration: 1000,
+                style: {
+                    background: 'linear-gradient(to right, #11998e, #38ef7d)', // rich green gradient
+                    color: '#ffffff',
+                    borderRadius: '12px',
+                    padding: '14px 24px',
+                    fontWeight: 'bold',
+                    fontSize: '16px',
+                    boxShadow: '0 6px 16px rgba(56, 239, 125, 0.4)', // soft green glow
+                    border: '1px solid #38ef7d',
+                    animation: 'fadeInUp 0.6s ease-out',
+                },
+            });
+        }
+    }, [isSuccess]);
+    useEffect(() => {
+        if (isError) {
+            toast.error("❌ Something went wrong!", {
+                duration: 1000,
+                style: {
+                    background: 'linear-gradient(to right, #e52d27, #b31217)', // rich red gradient
+                    color: '#ffffff',
+                    borderRadius: '12px',
+                    padding: '14px 24px',
+                    fontWeight: 'bold',
+                    fontSize: '16px',
+                    boxShadow: '0 6px 16px rgba(229, 45, 39, 0.4)', // soft red glow
+                    border: '1px solid #e52d27',
+                    animation: 'fadeInUp 0.6s ease-out',
+                },
+            });
+        }
+    }, [isError]);
+
     return (
         <section id="contact" className="py-32">
             <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,6 +98,7 @@ const Contact = ({ isDark }) => {
                         isDark ? "bg-[#1a1a1a] text-white" : "bg-white text-gray-900"
                     )}
                 >
+                    {isError && JSON.stringify(error, null, 2)}
                     <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-600 to-pink-600 text-transparent bg-clip-text">
                         Get in Touch
                     </h2>

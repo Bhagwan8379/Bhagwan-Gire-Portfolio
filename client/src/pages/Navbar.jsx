@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, Layout } from 'lucide-react';
 
-const Navbar = ({ isDark, setIsDark }) => {
+const Navbar = ({ isDark, setIsDark, LayoutChanage }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const closeMenu = () => setIsMenuOpen(false);
@@ -28,7 +28,7 @@ const Navbar = ({ isDark, setIsDark }) => {
                             <button
                                 key={section}
                                 onClick={() => scrollToSection(section)}
-                                className="text-sm uppercase tracking-wider hover:text-purple-600 transition-colors"
+                                className="text-sm cursor-pointer uppercase tracking-wider hover:text-purple-600 transition-colors"
                             >
                                 {section}
                             </button>
@@ -46,6 +46,11 @@ const Navbar = ({ isDark, setIsDark }) => {
                             className="p-2 cursor-pointer rounded-full bg-purple-600/10 hover:bg-purple-600/20 transition-colors"
                         >
                             {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                        </button>
+                        <button
+                            className={`cursor-pointer ${isDark ? "hover:text-violet-500 p-1  " : "hover:text-violet-500 p-1 "}`}
+                            onClick={() => LayoutChanage("Layout1")} >
+                            <Layout size={25} />
                         </button>
                     </div>
 
@@ -68,32 +73,37 @@ const Navbar = ({ isDark, setIsDark }) => {
             </div>
 
             {/* Mobile Dropdown */}
-            {isMenuOpen && (
-                <div className={`md:hidden px-6 pb-4 pt-2 space-y-3 ${isDark ? 'bg-black/80 text-white' : 'bg-white/90 text-black'} backdrop-blur-lg`}>
-                    {['home', 'projects', 'contact'].map((section) => (
-                        <button
-                            key={section}
-                            onClick={() => scrollToSection(section)}
-                            className="block w-full text-left text-sm uppercase tracking-wider hover:text-purple-600 transition-colors"
+            {
+                isMenuOpen && (
+                    <div className={`md:hidden px-6 pb-4 pt-2 space-y-3 ${isDark ? 'bg-black/80 text-white' : 'bg-white/90 text-black'} backdrop-blur-lg`}>
+                        {['home', 'projects', 'contact'].map((section) => (
+                            <button
+                                key={section}
+                                onClick={() => scrollToSection(section)}
+                                className="block w-full text-left text-sm uppercase tracking-wider hover:text-purple-600 transition-colors"
+                            >
+                                {section}
+                            </button>
+                        ))}
+                        <a
+                            href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full text-sm uppercase tracking-wider text-white bg-gradient-to-r from-purple-600 to-pink-500 text-center rounded-full px-4 py-2 hover:from-pink-600 hover:to-purple-500 transition-all"
                         >
-                            {section}
-                        </button>
-                    ))}
-                    <a
-                        href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full text-sm uppercase tracking-wider text-white bg-gradient-to-r from-purple-600 to-pink-500 text-center rounded-full px-4 py-2 hover:from-pink-600 hover:to-purple-500 transition-all"
-                    >
-                        Resume
-                    </a>
-                </div>
-            )}
+                            Resume
+                        </a>
+                    </div>
+                )
+            }
 
             {/* Bottom Gradient Line */}
             <div className="h-1 w-full bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-500"></div>
-        </nav>
+        </nav >
     );
 };
 
 export default Navbar;
+
+
+

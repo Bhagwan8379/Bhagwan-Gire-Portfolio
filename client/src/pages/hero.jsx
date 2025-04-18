@@ -62,9 +62,3 @@ export default Hero;
 
 
 
-
-
-
-
-
-
