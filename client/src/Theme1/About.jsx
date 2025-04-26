@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useGetAllEducationQuery } from "../redux/api/educationApi";
+import { toast } from "sonner";
 
 
 const About = ({ isDark }) => {
