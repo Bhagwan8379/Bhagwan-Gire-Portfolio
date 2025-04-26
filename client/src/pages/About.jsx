@@ -1,23 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useGetAllEducationQuery } from "../redux/api/educationApi";
+import { toast } from "sonner";
 
 const About = ({ isDark }) => {
+    const { data: educationData, isError, error } = useGetAllEducationQuery()
 
-    const educationData = [
-        {
-            degree: "Bachelor of Computer Science",
-            major: "Computer Science & Engineering",
-            institution: "Dr.Babasaheb Ambedkar Marathwada University Chhatrapati Sambhajinagar",
-            year: "2021 - 2025",
-        },
-        {
-            degree: "Higher Secondary Education",
-            major: "Science Stream",
-            institution: "Raje Shahaji Junior College Sultanpur",
-            year: "2020 - 2022",
-        },
-    ];
-
+    useEffect(() => {
+        if (isError) {
+            toast.error("Something Wrong (Education)")
+        }
+    }, [isError]);
     return (
         <section id="about" className="py-24">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,6 +24,8 @@ const About = ({ isDark }) => {
                 >
                     👋 About Me
                 </motion.h2>
+
+                {isError && JSON.stringify(error, null, 2)}
 
                 {/* Profile + About Text */}
                 <div className="flex flex-col md:flex-row items-center gap-10 mb-20">
@@ -60,21 +55,16 @@ const About = ({ isDark }) => {
                         className={`text-lg leading-relaxed ${isDark ? "text-gray-300" : "text-gray-700"
                             }`}
                     >
-                        <p className="mb-4">
-                            I'm a passionate full-stack developer with a love for building beautiful,
-                            responsive, and meaningful user experiences. My journey started with a
-                            curiosity about how websites work and turned into a full-blown obsession
-                            with creating scalable applications.
+                        <p className="mb-4" >
+                            Hi, I’m Bhagwan Babasaheb Gire from Chhatrapati Sambhajinagar (Aurangabad), Maharashtra. I completed my Bachelor’s in Computer Science from Dr. Babasaheb Ambedkar Marathwada University.
                         </p>
                         <p className="mb-4">
-                            With a strong foundation in both frontend and backend development, I enjoy
-                            working with modern tech stacks like React, Node.js, and MongoDB.
-                            Recently, I’ve been diving into performance optimization, serverless
-                            architecture, and UI animations using Framer Motion.
+                            I’m a Full Stack Developer with skills in HTML, CSS, JavaScript, React.js, Node.js, Express.js, MongoDB, and tools like Git and GitHub. I also use Bootstrap, Tailwind CSS, React Native, Expo, and React Native Paper for web and mobile app development.
                         </p>
                         <p>
-                            Outside of coding, I enjoy sketching, exploring new tech trends, listening
-                            to EDM, and collaborating on creative projects.
+                            I have completed a 6-month internship at Matic UI as a Full Stack Developer, where I worked on real-world projects and improved my coding and teamwork skills.
+
+                            In my free time, I enjoy reading books, traveling, photography, and learning about new technologies.
                         </p>
                     </motion.div>
                 </div>
@@ -87,11 +77,11 @@ const About = ({ isDark }) => {
                     viewport={{ once: true }}
                     className="text-3xl font-bold mb-10 bg-gradient-to-r from-fuchsia-500 to-purple-500 text-transparent bg-clip-text"
                 >
-                    🎓 Education Timeline
+                    🎓 Education
                 </motion.h3>
 
                 <div className="space-y-10">
-                    {educationData.map((edu, idx) => (
+                    {educationData && educationData.result.map((edu, idx) => (
                         <motion.div
                             key={idx}
                             initial={{ opacity: 0, x: -20 }}
@@ -111,7 +101,10 @@ const About = ({ isDark }) => {
                                 {edu.degree}
                             </h4>
                             <p className={`text-base ${isDark ? "text-gray-300" : "text-gray-700"}`}>
-                                {edu.major} – <span className="font-semibold">{edu.institution}</span>
+                                {edu.major}<span className="font-semibold">{edu.stream}</span>
+                            </p>
+                            <p className={`text-base ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                                {edu.major}– <span className="font-semibold">{edu.institute}</span>
                             </p>
                         </motion.div>
                     ))}
@@ -126,7 +119,7 @@ const About = ({ isDark }) => {
                     className="mt-20"
                 >
                     <h3 className="text-3xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-indigo-500 text-transparent bg-clip-text">
-                        🛠 Skills & Interests
+                        🛠 Skills
                     </h3>
                     <ul
                         className={`grid grid-cols-2 md:grid-cols-3 gap-4 ${isDark ? "text-gray-300" : "text-gray-700"

@@ -31,7 +31,7 @@ export const projectApi = createApi({
                 query: id => {
                     return {
                         url: `/delete-project/${id}`,
-                        method: "POST",
+                        method: "DELETE",
                     }
                 },
                 invalidatesTags: ["project"]

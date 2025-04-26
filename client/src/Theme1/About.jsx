@@ -1,24 +1,21 @@
-import React, { useState } from "react";
-const educationData = [
-    {
-        degree: "Master of Computer Science",
-        university: "Stanford University",
-        year: "2018 - 2020",
-        specialization: "Specialization in Human-Computer Interaction",
-    },
-    {
-        degree: "Bachelor of Science in Computer Engineering",
-        university: "UC Berkeley",
-        year: "2014 - 2018",
-        specialization: "Minor in Digital Arts",
-    },
-];
+import React, { useEffect, useState } from "react";
+import { useGetAllEducationQuery } from "../redux/api/educationApi";
+
 
 const About = ({ isDark }) => {
+
+    const { data: educationData, isError, error } = useGetAllEducationQuery()
+
+    useEffect(() => {
+        if (isError) {
+            toast.error("Something Wrong (Education)")
+        }
+    }, [isError]);
 
     return (
         <div className={`min-h-screen transition-colors duration-300 ${isDark ? 'bg-gray-900 text-gray-100' : 'bg-gradient-to-br from-blue-50 to-indigo-50 text-gray-800'}`}>
             <div className="container mx-auto px-4 py-16">
+                {isError && JSON.stringify(error, null, 2)}
                 {/* Main Horizontal Layout */}
                 <div className={`flex flex-col lg:flex-row rounded-3xl overflow-hidden shadow-2xl ${isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white'}`}>
                     {/* Left Column - Profile & Image */}
@@ -65,49 +62,17 @@ const About = ({ isDark }) => {
                         <div className="mb-10">
                             <h3 className={`text-2xl font-bold mb-4 ${isDark ? 'text-indigo-300' : 'text-blue-700'}`}>About Me</h3>
                             <p className={`mb-6 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                                Never at water me might. On formed motifs hunted unable merely by my whomez or.
-                                Complimental interested discretion estimating on stimulated apartments oh.
+                                Hi, I’m Bhagwan Babasaheb Gire from Chhatrapati Sambhajinagar (Aurangabad), Maharashtra. I completed my Bachelor’s in Computer Science from Dr. Babasaheb Ambedkar Marathwada University.
+                                I have completed a 6-month internship at Matic UI as a Full Stack Developer, where I worked on real-world projects and improved my coding and teamwork skills.
+                                In my free time, I enjoy reading books, traveling, photography, and learning about new technologies.
                             </p>
                         </div>
 
                         {/* Education Section */}
-                        {/* <div className="mb-10">
-                            <h3 className={`text-2xl font-bold mb-6 ${isDark ? 'text-indigo-300' : 'text-blue-700'}`}>Education</h3>
-
-                            <div className="space-y-6">
-                                <div className="flex">
-                                    <div className={`mr-4 flex-shrink-0 ${isDark ? 'text-indigo-400' : 'text-blue-500'}`}>
-                                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`}>Master of Computer Science</h4>
-                                        <p className={`${isDark ? 'text-indigo-300' : 'text-blue-600'}`}>Stanford University | 2018 - 2020</p>
-                                        <p className={`mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Specialization in Human-Computer Interaction</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex">
-                                    <div className={`mr-4 flex-shrink-0 ${isDark ? 'text-indigo-400' : 'text-blue-500'}`}>
-                                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`}>Bachelor of Science in Computer Engineering</h4>
-                                        <p className={`${isDark ? 'text-indigo-300' : 'text-blue-600'}`}>University of California, Berkeley | 2014 - 2018</p>
-                                        <p className={`mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Minor in Digital Arts</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
-
-
                         <div className="mb-10">
                             <h3 className={`text-2xl font-bold mb-6 ${isDark ? 'text-indigo-300' : 'text-blue-700'}`}>Education</h3>
                             <div className="space-y-6">
-                                {educationData.map((edu, index) => (
+                                {educationData && educationData.result.map((edu, index) => (
                                     <div key={index} className="flex">
                                         {/* Static icon for all items */}
                                         <div className={`mr-4 flex-shrink-0 ${isDark ? 'text-indigo-400' : 'text-blue-500'}`}>
@@ -121,8 +86,9 @@ const About = ({ isDark }) => {
                                         </div>
                                         <div>
                                             <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`}>{edu.degree}</h4>
-                                            <p className={`${isDark ? 'text-indigo-300' : 'text-blue-600'}`}>{edu.university} | {edu.year}</p>
-                                            <p className={`mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{edu.specialization}</p>
+                                            <p className={` ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{edu.stream}</p>
+                                            <p className={` ${isDark ? 'text-white' : 'text-black'}`}>{edu.institute}</p>
+                                            <p className={`${isDark ? 'text-indigo-300' : 'text-blue-600'}`}>{edu.year}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -135,7 +101,7 @@ const About = ({ isDark }) => {
                             <div>
                                 <h3 className={`text-2xl font-bold mb-6 ${isDark ? 'text-indigo-300' : 'text-blue-700'}`}>Skills</h3>
                                 <div className="space-y-3">
-                                    {['JavaScript (ES6+)', 'React.js', 'Node.js', 'React-Native', 'Expo', 'Tailwind css', 'Bootstrap', "Html", "Css"].map((skill) => (
+                                    {['JavaScript (ES6+)', 'React.js', 'Node.js', 'React-Native', 'Expo', 'Tailwind css', 'Bootstrap', "Html", "Css", "MongoDB", "Git & GitHub"].map((skill) => (
                                         <div key={skill} className="flex items-center">
                                             <div className={`w-2 h-2 rounded-full mr-3 ${isDark ? 'bg-indigo-400' : 'bg-blue-500'}`}></div>
                                             <span className={isDark ? 'text-gray-300' : 'text-gray-700'}>{skill}</span>

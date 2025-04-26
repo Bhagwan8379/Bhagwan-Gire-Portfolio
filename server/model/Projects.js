@@ -5,6 +5,7 @@ const projectSchema = new mongoose.Schema({
     desc: { type: String, required: true },
     technology: { type: [String], required: true },
     hero: { type: String, required: true },
+    onlineLink: { type: String, required: true },
 
 }, { timestamps: true })
 

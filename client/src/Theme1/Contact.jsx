@@ -302,8 +302,7 @@ const Contact = ({ isDark }) => {
                         className="text-base md:text-lg max-w-xl mx-auto font-medium"
                         style={{ fontFamily: 'Inter, sans-serif' }}
                     >
-                        I’m always open to new ideas 💡, creative projects 🎨, or just a friendly chat ☕.
-                        Let’s build something amazing together 🚀!
+                        Thanks for stopping by! 😊 Whether you have a project idea, a question, or just want to say hi — feel free to reach out. I’m always open to new opportunities, collaborations, and connecting with new people. Let’s create something amazing together!💻
                     </p>
                 </div>
             </div>

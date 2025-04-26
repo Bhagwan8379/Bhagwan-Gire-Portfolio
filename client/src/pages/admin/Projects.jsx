@@ -18,13 +18,15 @@ const Projects = () => {
             name: "",
             desc: "",
             technology: "",
-            hero: ""
+            hero: "",
+            onlineLink: ""
         },
         validationSchema: yup.object({
             name: yup.string().required("Enter project name"),
             desc: yup.string().required("Enter desc"),
             technology: yup.string().required("Enter technology"),
-            hero: yup.string().required("Upload Image")
+            hero: yup.string().required("Upload Image"),
+            onlineLink: yup.string().required("Enter Live URL")
         }),
         onSubmit: (values, { resetForm }) => {
             const fd = new FormData()
@@ -226,6 +228,20 @@ const Projects = () => {
                             />
                             {formik.touched.technology && formik.errors.technology && <p className="text-red-400 text-sm">{formik.errors.technology}</p>}
 
+                            <input
+                                type="text"
+                                name="onlineLink"
+                                placeholder="onlineLink (comma separated)"
+                                onChange={formik.handleChange}
+                                {...formik.getFieldProps("onlineLink")}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.onlineLink}
+                                className={clsx("w-full p-3 rounded-xl border focus:outline-none",
+                                    isDark ? "bg-zinc-800 border-zinc-700 text-white" : "bg-white border-gray-300 text-black"
+                                )}
+                            />
+                            {formik.touched.onlineLink && formik.errors.onlineLink && <p className="text-red-400 text-sm">{formik.errors.onlineLink}</p>}
+
                             <div>
                                 <label className="block font-medium mb-2">Project Image</label>
                                 <input
@@ -257,6 +273,11 @@ const Projects = () => {
                                     Cancel
                                 </button>
                                 <button
+                                    onClick={() => {
+                                        setModalOpen(false)
+                                        formik.resetForm()
+                                    }
+                                    }
                                     type="submit"
                                     className={clsx("px-5 py-2 rounded-lg text-white font-semibold transition-all duration-300 shadow-lg",
                                         isDark
@@ -264,15 +285,15 @@ const Projects = () => {
                                             : "bg-rose-500 hover:bg-rose-600"
                                     )}
                                 >
-                                    Add
+                                    {projectLoding ? <div className='animate-spin'></div> : "Add"}
                                 </button>
                             </div>
                         </form>
                     </div>
-                </div>
+                </div >
             )}
 
-        </div>
+        </div >
     );
 };
 

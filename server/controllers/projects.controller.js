@@ -10,8 +10,8 @@ exports.addProjects = expressAsyncHandler(async (req, res) => {
             if (err) {
                 return res.status(400).json({ message: "Multer Error", error: err })
             }
-            const { technology, desc, name } = req.body
-            const { isError, error } = CheckEmpty({ name, desc, technology })
+            const { technology, desc, name, onlineLink } = req.body
+            const { isError, error } = CheckEmpty({ name, desc, technology, onlineLink })
             if (isError) {
                 return res.status(400).json({ message: "All Fields Required", error })
             }
@@ -20,7 +20,7 @@ exports.addProjects = expressAsyncHandler(async (req, res) => {
                 const { secure_url } = await cloudinary.uploader.upload(req.file.path)
                 hero = secure_url
             }
-            await Projects.create({ name, desc, technology: technology.split(","), hero })
+            await Projects.create({ name, desc, technology: technology.split(","), hero, onlineLink })
             res.status(200).json({ message: "Project Add Success" })
         })
     } catch (error) {

@@ -69,6 +69,12 @@ const Projects = ({ isDark }) => {
     if (isError) return <div className="text-center py-20 text-red-500">Error loading projects</div>;
     if (!projects.length) return <div className="text-center py-20">No projects found</div>;
 
+    const openProject = (link) => {
+        if (link) {
+            window.open(link, '_blank'); // Open in new tab
+        }
+    };
+
     return (
         <div className={`${colors.bg} ${colors.text} min-h-screen w-full transition-colors duration-500`}>
             <div className="h-screen w-full flex flex-col justify-center p-4">
@@ -126,6 +132,7 @@ const Projects = ({ isDark }) => {
                                     </div>
 
                                     <button
+                                        onClick={() => openProject(project.onlineLink)}
                                         className={`${colors.button} text-white px-6 py-3 cursor-pointer rounded-lg font-medium w-full md:w-auto transition-all duration-300 hover:shadow-lg`}
                                         style={{ fontFamily: 'Inter, sans-serif' }}
                                     >

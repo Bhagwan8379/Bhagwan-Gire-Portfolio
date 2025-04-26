@@ -35,6 +35,12 @@ function Projects({ isDark }) {
     }
   }, [isError, error]);
 
+  const openProject = (link) => {
+    if (link) {
+      window.open(link, '_blank'); // Open in new tab
+    }
+  };
+
   return (
     <section id="projects" className="py-32 bg-transparent relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -102,6 +108,7 @@ function Projects({ isDark }) {
 
                   <motion.button
                     whileHover={{ scale: 1.05, x: 5 }}
+                    onClick={() => openProject(project.onlineLink)}
                     className="flex items-center text-purple-400 hover:text-pink-400 transition-colors font-medium"
                   >
                     View Project <ChevronRight size={18} className="ml-1" />

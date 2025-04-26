@@ -31,7 +31,7 @@ export const contactApi = createApi({
                 query: id => {
                     return {
                         url: `/delete-messages/${id}`,
-                        method: "POST",
+                        method: "DELETE",
                     }
                 },
                 invalidatesTags: ["contact"]
