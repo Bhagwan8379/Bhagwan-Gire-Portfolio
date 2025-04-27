@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken")
 const validator = require("validator")
 const Auth = require("../model/Auth")
 const { CheckEmpty } = require("../utils/CheckEmpty")
-const sendEmail = require("../utils/email")
 
 
 exports.RegisterAdmin = expressAsyncHandler(async (req, res) => {

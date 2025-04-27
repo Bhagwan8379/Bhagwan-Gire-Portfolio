@@ -8,7 +8,7 @@ const app = express()
 
 
 const allowedOrigin = process.env.NODE_ENV === "development"
-    ? process.env.LOCAL_SERVER || "http://localhost:5000"
+    ? process.env.LOCAL_SERVER || "http://localhost:5173"
     : process.env.LIVE_SERVER || "https://bhagwan-gire-portfolio.vercel.app"
 
 app.use(cors({
