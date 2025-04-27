@@ -4,7 +4,7 @@ import { authApi } from "../api/authApi";
 const authSlice = createSlice({
     name: "authSlice",
     initialState: {
-        admin: JSON.parse(localStorage.getItem("Admin")),
+        // admin: JSON.parse(localStorage.getItem("Admin")),
         layout: JSON.parse(localStorage.getItem("Layout"))
     },
     reducers: {
@@ -23,6 +23,7 @@ const authSlice = createSlice({
             state.admin = payload
         })
         .addMatcher(authApi.endpoints.AdminLogout.matchFulfilled, (state, { payload }) => {
+            localStorage.removeItem("Admin")
             state.admin = null
         })
 

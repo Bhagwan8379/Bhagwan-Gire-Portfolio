@@ -31,7 +31,6 @@ function Projects({ isDark }) {
           animation: 'fadeInUp 0.6s ease-out',
         },
       });
-      console.error(error); // Log error to console for better debugging
     }
   }, [isError, error]);
 

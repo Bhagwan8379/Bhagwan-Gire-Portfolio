@@ -11,11 +11,15 @@ import Contact from './pages/admin/Contact';
 import Emails from './pages/admin/Emails';
 import Education from './pages/admin/Education';
 import Projects from './pages/admin/Projects';
+import { useDispatch } from 'react-redux';
 
 
 
 const App = () => {
   const [isDark, setIsDark] = useState(true);
+
+
+
   return (
     <BrowserRouter>
       <ParticleCusrour />
