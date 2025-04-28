@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 function Projects({ isDark }) {
   const { data, isLoading, isError, error } = useGetAllProjectsQuery();
   const scrollRef = useRef(null);
-
+  // console.log("data from component", data)
   const scroll = (direction) => {
     const { current } = scrollRef;
     if (current) {
