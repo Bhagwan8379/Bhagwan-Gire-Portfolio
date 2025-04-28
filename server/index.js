@@ -12,7 +12,7 @@ const allowedOrigin = process.env.NODE_ENV === "development"
     : process.env.LIVE_SERVER || "https://bhagwan-gire-portfolio.vercel.app"
 
 app.use(cors({
-    origin: allowedOrigin,
+    origin: true,
     credentials: true
 }))
 app.use(express.json())
