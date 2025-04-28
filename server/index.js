@@ -23,7 +23,7 @@ app.use("/api/auth", require('./routes/auth.routes'))
 app.use("/api/projects", require('./routes/project.routes'))
 app.use("/api/education", require('./routes/education.routes'))
 
-app.use((req, res) => {
+app.use("*", (req, res) => {
     res.status(404).json({ message: "Resource Not Found 404" })
 })
 app.use((err, req, res, next) => {
