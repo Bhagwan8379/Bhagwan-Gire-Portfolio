@@ -137,7 +137,7 @@ const Footer = ({ isDark }) => {
                             className={clsx(
                                 'ml-4 px-4 py-1.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-300',
                                 isDark
-                                    ? ' text-black'
+                                    ? ' text-[#0e0e12]'
                                     : 'text-slate-50'
                             )}
                         >

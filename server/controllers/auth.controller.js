@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const validator = require("validator")
 const Auth = require("../model/Auth")
-const { CheckEmpty } = require("../utils/checkEmpty")
+const { CheckEmpty } = require("../utils/CheckEmpty")
 
 
 exports.RegisterAdmin = expressAsyncHandler(async (req, res) => {

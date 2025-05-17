@@ -1,5 +1,5 @@
 const expressAsyncHandler = require("express-async-handler")
-const { CheckEmpty } = require("../utils/checkEmpty")
+const { CheckEmpty } = require("../utils/CheckEmpty")
 const cloudinary = require("../utils/cloudinary.config")
 const Projects = require("../model/Projects")
 const { upload } = require("../utils/upload")

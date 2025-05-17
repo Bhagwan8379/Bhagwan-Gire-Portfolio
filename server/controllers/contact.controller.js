@@ -3,7 +3,7 @@ const validator = require("validator")
 // const { CheckEmpty } = require("../utils/CheckEmpty")
 const Contacts = require("../model/Contacts")
 const sendEmail = require("../utils/email")
-const { CheckEmpty } = require("../utils/checkEmpty")
+const { CheckEmpty } = require("../utils/CheckEmpty")
 
 
 exports.sendMessage = expressAsyncHandler(async (req, res) => {

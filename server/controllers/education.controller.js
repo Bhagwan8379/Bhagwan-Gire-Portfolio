@@ -1,6 +1,6 @@
 const expressAsyncHandler = require("express-async-handler")
 const Education = require("../model/Education")
-const { CheckEmpty } = require("../utils/checkEmpty")
+const { CheckEmpty } = require("../utils/CheckEmpty")
 
 exports.GetAllEducation = expressAsyncHandler(async (req, res) => {
     const result = await Education.find()
