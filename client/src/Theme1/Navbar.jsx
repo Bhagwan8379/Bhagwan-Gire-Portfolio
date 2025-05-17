@@ -13,7 +13,7 @@ const Navbar = ({ isDark, setIsDark, layout, LayoutChanage }) => {
         }
     };
     return (
-        <nav className={`fixed w-full z-50 transition-all duration-300  backdrop-blur-sm lg:backdrop-blur-none ${isDark ? 'border-slate-700/50' : 'border-slate-300 bg-white/30'}`}>
+        <nav className={`fixed w-full z-50 transition-all duration-300  backdrop-blur-sm lg:backdrop-blur-none ${isDark ? 'border-slate-700/50' : 'border-slate-300'}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="relative flex items-center justify-between h-16 md:h-20">
                     {/* Mobile Menu Button */}

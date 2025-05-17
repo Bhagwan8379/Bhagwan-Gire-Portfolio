@@ -12,7 +12,7 @@ const allowedOrigin = process.env.NODE_ENV === "development"
     : process.env.LIVE_SERVER || "https://bhagwan-gire-portfolio.vercel.app"
 
 app.use(cors({
-    origin: true,
+    origin: allowedOrigin,
     credentials: true
 }))
 app.use(express.json())
@@ -33,7 +33,7 @@ app.use((err, req, res, next) => {
 mongoose.connect(process.env.MONGO_URL)
 mongoose.connection.once("open", () => {
     console.log("MONGO CONNECTED 🥭")
-    // app.listen(process.env.PORT, console.log("Server Running 🏃‍♀️"))
+    app.listen(process.env.PORT, console.log("Server Running 🏃‍♀️"))
 })
 
 module.exports = app
