@@ -1,6 +1,6 @@
 const validator = require('validator')
 
-exports.CheckEmpty = async (fields) => {
+exports.checkEmpty = async (fields) => {
     const error = {}
     const isError = false
     for (const key in fields) {
