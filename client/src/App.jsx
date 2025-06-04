@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
+import React, { lazy, Suspense, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import Dashboard from './pages/admin/Dashboard';
-import Layout from './pages/admin/Layout';
-import NotFound from './utils/NotFound';
-import ParticleCusrour from './utils/ParticleCusrour';
-import { Toaster } from 'sonner';
-import Protected from './utils/Protected';
-import Contact from './pages/admin/Contact';
-import Emails from './pages/admin/Emails';
-import Education from './pages/admin/Education';
-import Projects from './pages/admin/Projects';
+import { ErrorBoundary } from "react-error-boundary"
 import { useDispatch } from 'react-redux';
+import { Toaster } from 'sonner';
+import FallBackError from './utils/FallBackError';
+import Loader from './pages/Loader';
+const Home = lazy(() => import('./pages/Home'));
+const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
+const Layout = lazy(() => import('./pages/admin/Layout'));
+const NotFound = lazy(() => import('./utils/NotFound'));
+const ParticleCusrour = lazy(() => import('./utils/ParticleCusrour'));
+const Protected = lazy(() => import('./utils/Protected'));
+const Contact = lazy(() => import('./pages/admin/Contact'));
+const Emails = lazy(() => import('./pages/admin/Emails'));
+const Education = lazy(() => import('./pages/admin/Education'));
+const Projects = lazy(() => import('./pages/admin/Projects'));
 
 
 
@@ -25,8 +28,16 @@ const App = () => {
       <ParticleCusrour />
       <Toaster position='top-right' />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/admin' element={<Protected compo={<Layout />} />}>
+        <Route path='/' element={<Suspense fallback={<Loader />}>
+          <ErrorBoundary FallbackComponent={FallBackError}>
+            <Home />
+          </ErrorBoundary>
+        </Suspense>} />
+        <Route path='/admin' element={<Suspense fallback={<Loader />}>
+          <ErrorBoundary FallbackComponent={FallBackError}>
+            <Protected compo={<Layout />} />
+          </ErrorBoundary>
+        </Suspense>}>
           <Route index element={<Dashboard />} />
           <Route path='projects' element={<Projects />} />
           <Route path='education' element={<Education />} />

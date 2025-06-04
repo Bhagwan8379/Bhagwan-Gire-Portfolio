@@ -2,8 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authApi } from "./api/authApi";
 import authSlice from "./slice/authSlice";
 import { contactApi } from "./api/contactApi";
-import { projectApi } from "./api/projectsApi";
 import { educationApi } from "./api/educationApi";
+import { projectApi } from "./api/projectsApi";
 
 
 const reduxStore = configureStore({

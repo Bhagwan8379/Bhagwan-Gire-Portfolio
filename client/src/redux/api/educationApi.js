@@ -13,8 +13,10 @@ export const educationApi = createApi({
                         method: "GET"
                     }
                 },
+                transformResponse: data => data.result,
                 providesTags: ["education"]
             }),
+
             addEducation: builder.mutation({
                 query: educationData => {
                     return {
