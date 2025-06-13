@@ -8,12 +8,13 @@ require("dotenv").config()
 // const app = express()
 
 
-app.use(cors({
-    origin: process.env.NODE_ENV === "development"
-        ? process.env.LOCAL_SERVER
-        : process.env.LIVE_SERVER,
-    credentials: true
-}))
+// app.use(cors({
+//     origin: process.env.NODE_ENV === "development"
+//         ? process.env.LOCAL_SERVER
+//         : process.env.LIVE_SERVER,
+//     credentials: true
+// }))
+app.use(cors({ origin: "*", credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
 
