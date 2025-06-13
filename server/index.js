@@ -14,7 +14,7 @@ require("dotenv").config()
 //         : process.env.LIVE_SERVER,
 //     credentials: true
 // }))
-app.use(cors({ origin: "*", credentials: true }))
+app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
 
