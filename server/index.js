@@ -9,10 +9,10 @@ require("dotenv").config()
 
 
 app.use(cors({
-    // origin: process.env.NODE_ENV === "development"
-    //     ? process.env.LOCAL_SERVER || "http://localhost:5173"
-    //     : process.env.LIVE_SERVER || "https://bhagwan-gire-portfolio.vercel.app",
-    origin: "*",
+    origin: process.env.NODE_ENV === "development"
+        ? process.env.LOCAL_SERVER
+        : process.env.LIVE_SERVER,
+    // origin: true,
     credentials: true
 }))
 app.use(express.json())
