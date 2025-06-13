@@ -2,13 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import { useDeleteMessageMutation, useGetAllMessagesQuery, useLazyGetAllMessagesQuery } from '../../redux/api/contactApi';
 import { toast } from 'sonner';
 import { ThemeContext } from './Layout';
-import { io } from 'socket.io-client'
 
-const ioServer = io("https://bhagwan-gire-portfolio-server.vercel.app")
 
 const Contact = () => {
     const { isDark } = useContext(ThemeContext);
-    const [getAllMessages, { isError, error }] = useLazyGetAllMessagesQuery();
+    const { data, isError, error } = useGetAllMessagesQuery();
     const [Delete, { isSuccess, isError: contactisError, isLoading, error: contactError }] = useDeleteMessageMutation()
 
     useEffect(() => {
@@ -67,12 +65,6 @@ const Contact = () => {
         }
     }, [isError || contactisError]);
 
-    useEffect(() => {
-        getAllMessages()
-        ioServer.on("contact-send", () => {
-            getAllMessages()
-        })
-    }, []);
     return (
         <div
             className={`min-h-screen p-6 rounded-xl transition-all duration-500 ${isDark

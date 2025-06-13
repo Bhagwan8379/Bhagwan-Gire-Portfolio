@@ -4,12 +4,10 @@ import { toast } from 'sonner';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useAddEducationMutation, useDeleteEducationMutation, useLazyGetAllEducationQuery } from '../../redux/api/educationApi';
-import { io } from 'socket.io-client'
+import { useAddEducationMutation, useDeleteEducationMutation, useGetAllEducationQuery } from '../../redux/api/educationApi';
 
-const ioServer = io("https://bhagwan-gire-portfolio-server.vercel.app")
 const Education = () => {
-    const [GetAllEducation, { isError, error }] = useLazyGetAllEducationQuery()
+    const { data, isError, error } = useGetAllEducationQuery()
     const [AddEducation, { isSuccess, isError: educationIsError, isLoading, error: educationError }] = useAddEducationMutation()
     const [DeleteEducation, { isSuccess: deleteSuccess, isLoading: deleteLodaing, isError: deleetIserror, error: deleteError }] = useDeleteEducationMutation()
     const { isDark } = useContext(ThemeContext);
@@ -34,14 +32,6 @@ const Education = () => {
             setModalOpen(false)
         }
     });
-
-    useEffect(() => {
-        GetAllEducation()
-        ioServer.on("education-add", () => {
-            GetAllEducation()
-        })
-    }, []);
-
 
     useEffect(() => {
         if (isError) {
@@ -94,8 +84,8 @@ const Education = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {GetAllEducation && GetAllEducation.length > 0 ? (
-                            GetAllEducation && GetAllEducation.map((edu) => (
+                        {data && data.length > 0 ? (
+                            data && data.map((edu) => (
                                 <tr key={edu.id} className={clsx(isDark ? 'hover:bg-white/10' : 'hover:bg-rose-100', 'rounded-xl')}>
                                     <td className="px-6 py-4 font-semibold">{edu.degree}</td>
                                     <td className="px-6 py-4">{edu.stream}</td>

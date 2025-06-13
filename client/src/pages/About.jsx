@@ -2,12 +2,9 @@ import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useGetAllEducationQuery, useLazyGetAllEducationQuery } from "../redux/api/educationApi";
 import { toast } from "sonner";
-import { io } from 'socket.io-client'
-
-const ioServer = io("https://bhagwan-gire-portfolio-server.vercel.app")
 
 const About = ({ isDark }) => {
-    const [GetAllEducation, { data, isError, error }] = useLazyGetAllEducationQuery()
+    const { data, isError, error } = useGetAllEducationQuery()
     console.log(data);
 
     useEffect(() => {

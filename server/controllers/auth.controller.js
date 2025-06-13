@@ -54,8 +54,6 @@ exports.LoginAdmin = expressAsyncHandler(async (req, res) => {
         maxAge: 1000 * 60 * 60 * 24,
         httpOnly: true
     })
-    const result = await Auth.find()
-    IO.emit("login-sucess", result)
     res.status(200).json({
         message: "Admin Login Success", data: {
             _id: isFound._id,

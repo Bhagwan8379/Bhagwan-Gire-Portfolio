@@ -22,8 +22,6 @@ exports.addProjects = expressAsyncHandler(async (req, res) => {
                 hero = secure_url
             }
             await Projects.create({ name, desc, technology: technology.split(","), hero, onlineLink })
-            const result = await Projects.find()
-            IO.emit("project-added", result)
             res.status(200).json({ message: "Project Add Success" })
         })
     } catch (error) {

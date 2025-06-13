@@ -68,8 +68,6 @@ exports.sendMessage = expressAsyncHandler(async (req, res) => {
               </div>
             `
     });
-    const result = await Contacts.find()
-    IO.emit("contact-send", result)
     res.status(200).json({ message: "Message Send Success" })
 })
 

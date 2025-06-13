@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useGetAllProjectsQuery, useLazyGetAllProjectsQuery } from '../redux/api/projectsApi';
-import { io } from 'socket.io-client';
+import { useGetAllProjectsQuery } from '../redux/api/projectsApi';
 
-const ioServer = io("https://bhagwan-gire-portfolio-server.vercel.app")
 
 const Projects = ({ isDark }) => {
-    const [GetAllProject, { isLoading, isError }] = useLazyGetAllProjectsQuery();
+    const { data, isLoading, isError } = useGetAllProjectsQuery();
     const [currentIndex, setCurrentIndex] = useState(0);
     const carouselRef = useRef(null);
     const intervalRef = useRef(null);
@@ -40,11 +38,11 @@ const Projects = ({ isDark }) => {
     useEffect(() => {
         const startCarousel = () => {
             intervalRef.current = setInterval(() => {
-                setCurrentIndex(prev => (prev + 1) % GetAllProject.length);
+                setCurrentIndex(prev => (prev + 1) % data.length);
             }, 4000)
         };
 
-        if (GetAllProject.length > 0) {
+        if (data.length > 0) {
             startCarousel();
         }
 
@@ -53,17 +51,17 @@ const Projects = ({ isDark }) => {
                 clearInterval(intervalRef.current);
             }
         };
-    }, [GetAllProject.length]);
+    }, [data.length])
 
     useEffect(() => {
-        if (carouselRef.current && GetAllProject.length > 0) {
+        if (carouselRef.current && data.length > 0) {
             const projectWidth = carouselRef.current.children[0]?.offsetWidth || 0;
             carouselRef.current.scrollTo({
                 left: currentIndex * projectWidth,
                 behavior: 'smooth'
             });
         }
-    }, [currentIndex, GetAllProject.length]);
+    }, [currentIndex, data.length]);
 
     const goToProject = (index) => {
         setCurrentIndex(index);
@@ -71,13 +69,13 @@ const Projects = ({ isDark }) => {
             clearInterval(intervalRef.current);
         }
         intervalRef.current = setInterval(() => {
-            setCurrentIndex(prev => (prev + 1) % GetAllProject.length);
+            setCurrentIndex(prev => (prev + 1) % data.length);
         }, 2000);
     }
 
     if (isLoading) return <div className="text-center py-20">Loading projects...</div>;
     if (isError) return <div className="text-center py-20 text-red-500">Error loading projects</div>;
-    if (!GetAllProject.length) return <div className="text-center py-20">No projects found</div>;
+    if (!data.length) return <div className="text-center py-20">No projects found</div>;
 
     const openProject = (link) => {
         if (link) {
@@ -100,7 +98,7 @@ const Projects = ({ isDark }) => {
                     className="flex overflow-x-hidden scroll-snap-x-mandatory scrollbar-hide w-full"
                     style={{ scrollSnapType: 'x mandatory' }}
                 >
-                    {GetAllProject.map((project) => (
+                    {data.map((project) => (
                         <div
                             key={project._id}
                             className="flex-shrink-0 w-full h-full px-4 scroll-snap-align-start"
@@ -155,7 +153,7 @@ const Projects = ({ isDark }) => {
                 </div>
 
                 <div className="flex justify-center mt-8 gap-2">
-                    {GetAllProject.map((_, index) => (
+                    {data.map((_, index) => (
                         <button
                             key={index}
                             onClick={() => goToProject(index)}

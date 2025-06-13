@@ -4,14 +4,12 @@ import { toast } from 'sonner';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useAddProjectsMutation, useDeleteProjectsMutation, useLazyGetAllProjectsQuery } from '../../redux/api/projectsApi';
-import { io } from 'socket.io-client';
+import { useAddProjectsMutation, useDeleteProjectsMutation, useGetAllProjectsQuery } from '../../redux/api/projectsApi';
 
-const ioServer = io("https://bhagwan-gire-portfolio-server.vercel.app")
 const Projects = () => {
     const { isDark } = useContext(ThemeContext);
     const [isModalOpen, setModalOpen] = useState(false);
-    const [GetAllProject, { isError: fetchIserror, error: fetchError }] = useLazyGetAllProjectsQuery()
+    const { data, isError: fetchIserror, error: fetchError } = useGetAllProjectsQuery()
     const [DeleteProjects, { isSuccess, isLoading, isError, error }] = useDeleteProjectsMutation()
     const [AddProjects, { isSuccess: projectSuccess, isError: projectIsError, error: projectError, isLoading: projectLoding }] = useAddProjectsMutation()
 
@@ -39,13 +37,6 @@ const Projects = () => {
             resetForm()
         }
     });
-
-    useEffect(() => {
-        GetAllProject()
-        ioServer.on("project-added", () => {
-            GetAllProject()
-        })
-    }, []);
 
     useEffect(() => {
         if (projectSuccess) {
@@ -147,8 +138,8 @@ const Projects = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {GetAllProject && GetAllProject.length > 0 ? (
-                            GetAllProject.map((project) => (
+                        {data && data.length > 0 ? (
+                            data.map((project) => (
                                 <tr key={project.id} className={clsx(isDark ? 'hover:bg-white/10' : 'hover:bg-rose-100', 'rounded-xl')}>
                                     <td className="px-6 py-4">
                                         <img

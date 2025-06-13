@@ -14,8 +14,6 @@ exports.AddEducation = expressAsyncHandler(async (req, res) => {
         return res.status(400).json({ message: "All Fields Required", error })
     }
     await Education.create({ degree, stream, institute, year, college })
-    const result = await Education.find()
-    IO.emit("education-add", result)
     res.status(200).json({ message: "Education Add Success" })
 })
 exports.DeleteEducation = expressAsyncHandler(async (req, res) => {
