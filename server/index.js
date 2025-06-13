@@ -12,7 +12,10 @@ app.use(cors({
     // origin: process.env.NODE_ENV === "development"
     //     ? process.env.LOCAL_SERVER
     //     : process.env.LIVE_SERVER,
-    origin: true,
+    origin: [
+        process.env.LOCAL_SERVER,
+        process.env.LIVE_SERVER,
+    ],
     credentials: true
 }))
 app.use(express.json())
