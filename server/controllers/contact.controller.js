@@ -2,8 +2,9 @@ const expressAsyncHandler = require("express-async-handler")
 const validator = require("validator")
 const Contacts = require("../model/Contacts")
 const sendEmail = require("../utils/email")
-const { checkEmpty } = require("../utils/CheckEmpty")
+// const { checkEmpty } = require("../utils/CheckEmpty")
 const { IO } = require("../socket/socket")
+const { checkEmpty } = require("../utils/checkEmpty")
 
 
 exports.sendMessage = expressAsyncHandler(async (req, res) => {
