@@ -2,15 +2,17 @@ const express = require("express")
 const mongoose = require("mongoose")
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
+const { httpServer, app } = require("./socket/socket")
 require("dotenv").config()
 
-const app = express()
+// const app = express()
 
-
-const allowedOrigin = process.env.LIVE_SERVER || "https://bhagwan-gire-portfolio.vercel.app"
 
 app.use(cors({
-    origin: true,
+    // origin: process.env.NODE_ENV === "development"
+    //     ? process.env.LOCAL_SERVER || "http://localhost:5173"
+    //     : process.env.LIVE_SERVER || "https://bhagwan-gire-portfolio.vercel.app",
+    origin: "*",
     credentials: true
 }))
 app.use(express.json())
@@ -31,7 +33,8 @@ app.use((err, req, res, next) => {
 mongoose.connect(process.env.MONGO_URL)
 mongoose.connection.once("open", () => {
     console.log("MONGO CONNECTED 🥭")
-    app.listen(process.env.PORT, console.log("Server Running 🏃‍♀️"))
+    httpServer.listen(process.env.PORT, console.log("Server Running 🏃‍♀️"))
+    // app.listen(process.env.PORT, console.log("Server Running 🏃‍♀️"))
 })
 
 module.exports = app

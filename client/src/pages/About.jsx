@@ -1,11 +1,21 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { useGetAllEducationQuery } from "../redux/api/educationApi";
+import { useGetAllEducationQuery, useLazyGetAllEducationQuery } from "../redux/api/educationApi";
 import { toast } from "sonner";
+import { io } from 'socket.io-client'
+
+const ioServer = io("https://bhagwan-gire-portfolio-server.vercel.app")
 
 const About = ({ isDark }) => {
-    const { data, isError, error } = useGetAllEducationQuery()
+    const [GetAllEducation, { data, isError, error }] = useLazyGetAllEducationQuery()
     console.log(data);
+
+    useEffect(() => {
+        GetAllEducation()
+        ioServer.on("education-add", () => {
+            GetAllEducation()
+        })
+    }, []);
 
     useEffect(() => {
         if (isError) {
@@ -82,7 +92,7 @@ const About = ({ isDark }) => {
                 </motion.h3>
 
                 <div className="space-y-10">
-                    {/* {educationData && educationData.result.map((edu, idx) => (
+                    {data && data?.map((edu, idx) => (
                         <motion.div
                             key={idx}
                             initial={{ opacity: 0, x: -20 }}
@@ -108,7 +118,7 @@ const About = ({ isDark }) => {
                                 {edu.major}– <span className="font-semibold">{edu.institute}</span>
                             </p>
                         </motion.div>
-                    ))} */}
+                    ))}
                 </div>
 
                 {/* Skills & Interests */}

@@ -4,12 +4,14 @@ import { toast } from 'sonner';
 import clsx from 'clsx';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useAddProjectsMutation, useDeleteProjectsMutation, useGetAllProjectsQuery } from '../../redux/api/projectsApi';
+import { useAddProjectsMutation, useDeleteProjectsMutation, useLazyGetAllProjectsQuery } from '../../redux/api/projectsApi';
+import { io } from 'socket.io-client';
 
+const ioServer = io("https://bhagwan-gire-portfolio-server.vercel.app")
 const Projects = () => {
     const { isDark } = useContext(ThemeContext);
     const [isModalOpen, setModalOpen] = useState(false);
-    const { data, isError: fetchIserror, error: fetchError } = useGetAllProjectsQuery()
+    const [GetAllProject, { isError: fetchIserror, error: fetchError }] = useLazyGetAllProjectsQuery()
     const [DeleteProjects, { isSuccess, isLoading, isError, error }] = useDeleteProjectsMutation()
     const [AddProjects, { isSuccess: projectSuccess, isError: projectIsError, error: projectError, isLoading: projectLoding }] = useAddProjectsMutation()
 
@@ -37,6 +39,13 @@ const Projects = () => {
             resetForm()
         }
     });
+
+    useEffect(() => {
+        GetAllProject()
+        ioServer.on("project-added", () => {
+            GetAllProject()
+        })
+    }, []);
 
     useEffect(() => {
         if (projectSuccess) {
@@ -113,6 +122,7 @@ const Projects = () => {
         }
     }, [isError || fetchIserror || projectIsError]);
 
+
     return (
         <div className={clsx("p-6 min-h-screen transition-all duration-500", isDark ? 'bg-black/90 text-white' : 'bg-white text-gray-900')}>
             <div className="flex justify-between items-center mb-8">
@@ -124,7 +134,7 @@ const Projects = () => {
                     + Add Project
                 </button>
             </div>
-            {fetchIserror || projectIsError || isError && JSON.stringify(fetchError || projectError || error, data, null, 2)}
+            {fetchIserror || projectIsError || isError && JSON.stringify(fetchError || projectError || error, GetAllProject, null, 2)}
             <div className="overflow-x-auto shadow-2xl rounded-2xl">
                 <table className={clsx("min-w-full text-sm border-separate border-spacing-y-2", isDark ? 'bg-white/5 text-white' : 'bg-white text-gray-800')}>
                     <thead className={clsx("uppercase text-left text-sm", isDark ? 'bg-gradient-to-r from-yellow-500 to-red-500 text-black' : 'bg-gradient-to-r from-pink-300 to-yellow-200 text-gray-900')}>
@@ -137,8 +147,8 @@ const Projects = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data && data.length > 0 ? (
-                            data.map((project) => (
+                        {GetAllProject && GetAllProject.length > 0 ? (
+                            GetAllProject.map((project) => (
                                 <tr key={project.id} className={clsx(isDark ? 'hover:bg-white/10' : 'hover:bg-rose-100', 'rounded-xl')}>
                                     <td className="px-6 py-4">
                                         <img

@@ -41,4 +41,9 @@ export const projectApi = createApi({
     }
 })
 
-export const { useGetAllProjectsQuery, useDeleteProjectsMutation, useAddProjectsMutation } = projectApi
+export const {
+    useGetAllProjectsQuery,
+    useDeleteProjectsMutation,
+    useAddProjectsMutation,
+    useLazyGetAllProjectsQuery
+} = projectApi

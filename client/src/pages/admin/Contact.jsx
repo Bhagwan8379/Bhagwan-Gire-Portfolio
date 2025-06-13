@@ -1,16 +1,19 @@
 import React, { useContext, useEffect } from 'react';
-import { useDeleteMessageMutation, useGetAllMessagesQuery } from '../../redux/api/contactApi';
+import { useDeleteMessageMutation, useGetAllMessagesQuery, useLazyGetAllMessagesQuery } from '../../redux/api/contactApi';
 import { toast } from 'sonner';
 import { ThemeContext } from './Layout';
+import { io } from 'socket.io-client'
+
+const ioServer = io("https://bhagwan-gire-portfolio-server.vercel.app")
 
 const Contact = () => {
     const { isDark } = useContext(ThemeContext);
-    const { data, isError, error } = useGetAllMessagesQuery();
+    const [getAllMessages, { isError, error }] = useLazyGetAllMessagesQuery();
     const [Delete, { isSuccess, isError: contactisError, isLoading, error: contactError }] = useDeleteMessageMutation()
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success("✅ Login Success! .", {
+            toast.success("✅ Delete Success! .", {
                 duration: 1000,
                 style: {
                     background: 'linear-gradient(to right, #11998e, #38ef7d)', // rich green gradient
@@ -64,6 +67,12 @@ const Contact = () => {
         }
     }, [isError || contactisError]);
 
+    useEffect(() => {
+        getAllMessages()
+        ioServer.on("contact-send", () => {
+            getAllMessages()
+        })
+    }, []);
     return (
         <div
             className={`min-h-screen p-6 rounded-xl transition-all duration-500 ${isDark
@@ -101,8 +110,8 @@ const Contact = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data?.length > 0 ? (
-                            data.map((contact) => (
+                        {getAllMessages?.length > 0 ? (
+                            getAllMessages.map((contact) => (
                                 <tr
                                     key={contact._id}
                                     className={`transition-all ${isDark ? 'hover:bg-white/10' : 'hover:bg-rose-100'

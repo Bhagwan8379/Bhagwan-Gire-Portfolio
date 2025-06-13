@@ -6,13 +6,13 @@ const sendEmail = async ({ email, subject, message }) => {
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: process.env.FROM_EMAIL,
+                user: process.env.MY_EMAIL,
                 pass: process.env.EMAIL_PASS,
             },
         });
 
         const mailOptions = {
-            from: `"Bhagwan Gire" <${process.env.FROM_EMAIL} >`,
+            from: `"Bhagwan Gire" <${process.env.MY_EMAIL} >`,
             to: email,
             subject: subject,
             html: message,
@@ -25,6 +25,6 @@ const sendEmail = async ({ email, subject, message }) => {
         console.error("Error sending email:", error);
         return false;
     }
-};
+}
 
 module.exports = sendEmail;

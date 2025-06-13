@@ -2,12 +2,13 @@ const expressAsyncHandler = require("express-async-handler")
 const validator = require("validator")
 const Contacts = require("../model/Contacts")
 const sendEmail = require("../utils/email")
-const { CheckEmpty } = require("../utils/CheckEmpty")
+const { checkEmpty } = require("../utils/CheckEmpty")
+const { IO } = require("../socket/socket")
 
 
 exports.sendMessage = expressAsyncHandler(async (req, res) => {
     const { name, email, message } = req.body
-    const { isError, error } = CheckEmpty({ name, email, message })
+    const { isError, error } = checkEmpty({ name, email, message })
     if (isError) {
         return res.status(400).json({ message: "All Fields Required", error })
     }
@@ -66,6 +67,8 @@ exports.sendMessage = expressAsyncHandler(async (req, res) => {
               </div>
             `
     });
+    const result = await Contacts.find()
+    IO.emit("contact-send", result)
     res.status(200).json({ message: "Message Send Success" })
 })
 

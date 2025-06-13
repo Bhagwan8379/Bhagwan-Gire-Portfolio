@@ -41,4 +41,9 @@ export const educationApi = createApi({
     }
 })
 
-export const { useGetAllEducationQuery, useAddEducationMutation, useDeleteEducationMutation } = educationApi
+export const {
+    useGetAllEducationQuery,
+    useAddEducationMutation,
+    useDeleteEducationMutation,
+    useLazyGetAllEducationQuery
+} = educationApi

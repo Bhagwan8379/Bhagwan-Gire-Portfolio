@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 const About = ({ isDark }) => {
 
-    const { data: educationData, isError, error } = useGetAllEducationQuery()
+    const { data, isError, error } = useGetAllEducationQuery()
 
     useEffect(() => {
         if (isError) {
@@ -73,7 +73,7 @@ const About = ({ isDark }) => {
                         <div className="mb-10">
                             <h3 className={`text-2xl font-bold mb-6 ${isDark ? 'text-indigo-300' : 'text-blue-700'}`}>Education</h3>
                             <div className="space-y-6">
-                                {educationData && educationData.result.map((edu, index) => (
+                                {data && data.map((edu, index) => (
                                     <div key={index} className="flex">
                                         {/* Static icon for all items */}
                                         <div className={`mr-4 flex-shrink-0 ${isDark ? 'text-indigo-400' : 'text-blue-500'}`}>

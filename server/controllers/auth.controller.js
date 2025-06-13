@@ -3,12 +3,13 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const validator = require("validator")
 const Auth = require("../model/Auth")
-const { CheckEmpty } = require("../utils/CheckEmpty")
+const { checkEmpty } = require("../utils/CheckEmpty")
+const { IO } = require("../socket/socket")
 
 
 exports.RegisterAdmin = expressAsyncHandler(async (req, res) => {
     const { name, email, password, mobile } = req.body
-    const { isError, error } = CheckEmpty({ name, email, password })
+    const { isError, error } = checkEmpty({ name, email, password })
     if (isError) {
         return res.status(400).json({ message: "All Fields Required", error })
     }
@@ -32,9 +33,8 @@ exports.RegisterAdmin = expressAsyncHandler(async (req, res) => {
 
 exports.LoginAdmin = expressAsyncHandler(async (req, res) => {
     const { username, password } = req.body
-    // console.log(username, password)
 
-    const { isError, error } = CheckEmpty({ username, password })
+    const { isError, error } = checkEmpty({ username, password })
     if (isError) {
         return res.status(400).json({ message: "All Fields Required", error })
     }
@@ -54,6 +54,8 @@ exports.LoginAdmin = expressAsyncHandler(async (req, res) => {
         maxAge: 1000 * 60 * 60 * 24,
         httpOnly: true
     })
+    const result = await Auth.find()
+    IO.emit("login-sucess", result)
     res.status(200).json({
         message: "Admin Login Success", data: {
             _id: isFound._id,

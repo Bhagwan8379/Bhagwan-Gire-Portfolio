@@ -41,4 +41,9 @@ export const contactApi = createApi({
     }
 })
 
-export const { useDeleteMessageMutation, useGetAllMessagesQuery, useSendMessageMutation } = contactApi
+export const {
+    useDeleteMessageMutation,
+    useGetAllMessagesQuery,
+    useSendMessageMutation,
+    useLazyGetAllMessagesQuery
+} = contactApi

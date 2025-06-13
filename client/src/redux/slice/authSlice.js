@@ -4,7 +4,7 @@ import { authApi } from "../api/authApi";
 const authSlice = createSlice({
     name: "authSlice",
     initialState: {
-        // admin: JSON.parse(localStorage.getItem("Admin")),
+        admin: JSON.parse(localStorage.getItem("Admin")),
         layout: JSON.parse(localStorage.getItem("Layout"))
     },
     reducers: {

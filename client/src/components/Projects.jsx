@@ -1,13 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
-import { useGetAllProjectsQuery } from '../redux/api/projectsApi';
+import { useGetAllProjectsQuery, useLazyGetAllProjectsQuery } from '../redux/api/projectsApi';
 import { toast } from 'sonner';
+import { io } from 'socket.io-client';
+
+const ioServer = io("https://bhagwan-gire-portfolio-server.vercel.app")
 
 function Projects({ isDark }) {
-  const { data, isLoading, isError, error } = useGetAllProjectsQuery();
+  const [GetAllProject, { isLoading, isError, error }] = useLazyGetAllProjectsQuery();
   const scrollRef = useRef(null);
-  // console.log("data from component", data)
+  // console.log("GetAllProject from component", GetAllProject)
   const scroll = (direction) => {
     const { current } = scrollRef;
     if (current) {
@@ -71,12 +74,12 @@ function Projects({ isDark }) {
         </button>
 
         {/* Scrollable Grid */}
-        <div
+        {/* <div
           ref={scrollRef}
           className="flex gap-10 overflow-x-auto scroll-smooth no-scrollbar pb-2"
         >
-          {data && data.length > 0 ? (
-            data.map((project, index) => (
+          {GetAllProject && GetAllProject.length > 0 ? (
+            GetAllProject.map((project, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
@@ -118,7 +121,7 @@ function Projects({ isDark }) {
           ) : (
             <p className="text-center text-lg text-gray-500">No projects available.</p>
           )}
-        </div>
+        </div> */}
       </div>
 
       <style jsx>{`

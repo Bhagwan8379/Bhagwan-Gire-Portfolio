@@ -1,8 +1,9 @@
 const expressAsyncHandler = require("express-async-handler")
-const { CheckEmpty } = require("../utils/CheckEmpty")
+const { checkEmpty } = require("../utils/CheckEmpty")
 const cloudinary = require("../utils/cloudinary.config")
 const Projects = require("../model/Projects")
 const { upload } = require("../utils/upload")
+const { IO } = require("../socket/socket")
 
 exports.addProjects = expressAsyncHandler(async (req, res) => {
     try {
@@ -11,7 +12,7 @@ exports.addProjects = expressAsyncHandler(async (req, res) => {
                 return res.status(400).json({ message: "Multer Error", error: err })
             }
             const { technology, desc, name, onlineLink } = req.body
-            const { isError, error } = CheckEmpty({ name, desc, technology, onlineLink })
+            const { isError, error } = checkEmpty({ name, desc, technology, onlineLink })
             if (isError) {
                 return res.status(400).json({ message: "All Fields Required", error })
             }
@@ -21,6 +22,8 @@ exports.addProjects = expressAsyncHandler(async (req, res) => {
                 hero = secure_url
             }
             await Projects.create({ name, desc, technology: technology.split(","), hero, onlineLink })
+            const result = await Projects.find()
+            IO.emit("project-added", result)
             res.status(200).json({ message: "Project Add Success" })
         })
     } catch (error) {
