@@ -1,6 +1,6 @@
 const expressAsyncHandler = require("express-async-handler")
 const Education = require("../model/Education")
-const { checkEmpty } = require("../utils/CheckEmpty")
+const { checkEmpty } = require("../utils/checkEmpty")
 const { IO } = require("../socket/socket")
 
 exports.GetAllEducation = expressAsyncHandler(async (req, res) => {

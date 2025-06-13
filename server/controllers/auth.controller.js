@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const validator = require("validator")
 const Auth = require("../model/Auth")
-const { checkEmpty } = require("../utils/CheckEmpty")
+const { checkEmpty } = require("../utils/checkEmpty")
 const { IO } = require("../socket/socket")
 
 
