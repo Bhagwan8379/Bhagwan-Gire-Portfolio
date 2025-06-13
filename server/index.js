@@ -8,13 +8,9 @@ require("dotenv").config()
 // const app = express()
 
 app.use(cors({
-    // origin: process.env.NODE_ENV === "development"
-    //     ? process.env.LOCAL_SERVER
-    //     : process.env.LIVE_SERVER,
-    origin: [
-        process.env.LOCAL_SERVER,
-        process.env.LIVE_SERVER,
-    ],
+    origin: process.env.NODE_ENV === "development"
+        ? process.env.LOCAL_SERVER
+        : process.env.LIVE_SERVER,
     credentials: true
 }))
 app.use(express.json())
@@ -39,5 +35,5 @@ mongoose.connection.once("open", () => {
     // app.listen(process.env.PORT, console.log("Server Running 🏃‍♀️"))
 })
 
-module.exports = app
+module.exports = { httpServer, app }
 
