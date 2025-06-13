@@ -7,12 +7,6 @@ const About = ({ isDark }) => {
     const { data, isError, error } = useGetAllEducationQuery()
     console.log(data);
 
-    useEffect(() => {
-        GetAllEducation()
-        ioServer.on("education-add", () => {
-            GetAllEducation()
-        })
-    }, []);
 
     useEffect(() => {
         if (isError) {
