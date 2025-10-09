@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X, Sun, Moon, Layout } from 'lucide-react';
+import Resume from '../../src/assets/Bhagwan_Gire-Resume.pdf'
 
 const Navbar = ({ isDark, setIsDark, LayoutChanage }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,7 +37,7 @@ const Navbar = ({ isDark, setIsDark, LayoutChanage }) => {
                         ))}
 
                         <a
-                            href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                            href={Resume}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sm uppercase tracking-wider px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-full hover:from-pink-600 hover:to-purple-500 transition-all"
