@@ -1,1 +1,33 @@
 @import "tailwindcss";
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.animate-scan {
+  animation: scan 2s linear infinite;
+}
+
+/* Custom Scrollbar for Hacker Theme Only */
+body.theme-hacker ::-webkit-scrollbar {
+  width: 10px;
+}
+
+body.theme-hacker ::-webkit-scrollbar-track {
+  background: #000;
+}
+
+body.theme-hacker ::-webkit-scrollbar-thumb {
+  background: #333;
+  border: 1px solid #0f0;
+}
+
+body.theme-hacker ::-webkit-scrollbar-thumb:hover {
+  background: #0f0;
+}

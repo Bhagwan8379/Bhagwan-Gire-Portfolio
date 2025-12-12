@@ -3,6 +3,7 @@ import { Sun, Moon, Layout } from "lucide-react";
 
 const Navbar = ({ isDark, setIsDark, layout, LayoutChanage }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const closeMenu = () => setIsMenuOpen(false);
 
     const scrollToSection = (id) => {
@@ -78,11 +79,37 @@ const Navbar = ({ isDark, setIsDark, layout, LayoutChanage }) => {
                         >
                             {isDark ? <Sun size={18} className="text-yellow-300" /> : <Moon size={18} className="text-indigo-700" />}
                         </button>
-                        <button
-                            className={`p-1 md:p-1.5 cursor-pointer rounded-full transition-all ${isDark ? "hover:text-indigo-400 hover:bg-violet-500/20" : "hover:text-indigo-600 hover:bg-violet-500/20"}`}
-                            onClick={() => LayoutChanage("Layout2")}>
-                            <Layout size={20} />
-                        </button>
+
+                        <div className="relative">
+                            <button
+                                className={`p-1 md:p-1.5 cursor-pointer rounded-full transition-all ${isDark ? "hover:text-indigo-400 hover:bg-violet-500/20" : "hover:text-indigo-600 hover:bg-violet-500/20"}`}
+                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            >
+                                <Layout size={20} />
+                            </button>
+                            {isDropdownOpen && (
+                                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-md shadow-lg py-1 z-50 border border-slate-200 dark:border-slate-700">
+                                    <button
+                                        onClick={() => { LayoutChanage("Layout1"); setIsDropdownOpen(false); }}
+                                        className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 font-sans"
+                                    >
+                                        Theme 1 (Professional)
+                                    </button>
+                                    <button
+                                        onClick={() => { LayoutChanage("Layout2"); setIsDropdownOpen(false); }}
+                                        className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 font-sans"
+                                    >
+                                        Theme 2 (Gradient)
+                                    </button>
+                                    <button
+                                        onClick={() => { LayoutChanage("Layout3"); setIsDropdownOpen(false); }}
+                                        className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 font-mono"
+                                    >
+                                        Theme 3 (Hacker)
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     {/* Mobile Menu */}
@@ -129,19 +156,22 @@ const Navbar = ({ isDark, setIsDark, layout, LayoutChanage }) => {
                             >
                                 Resume
                             </a>
-                            <div className="flex border-t ${isDark ? 'border-slate-700' : 'border-slate-200'}">
+                            <div className="flex border-t max-h-60 overflow-y-auto ${isDark ? 'border-slate-700' : 'border-slate-200'}">
                                 <button
                                     onClick={() => setIsDark(!isDark)}
                                     className={`flex-1 py-3 flex items-center justify-center ${isDark ? 'text-white hover:bg-slate-700' : 'text-black hover:bg-slate-100'}`}
                                 >
                                     {isDark ? <Sun size={18} className="text-yellow-300" /> : <Moon size={18} className="text-indigo-700" />}
                                 </button>
-                                <button
-                                    onClick={() => LayoutChanage("Layout2")}
-                                    className={`flex-1 py-3 flex items-center justify-center ${isDark ? 'text-white hover:bg-slate-700' : 'text-black hover:bg-slate-100'}`}
-                                >
-                                    <Layout size={18} />
-                                </button>
+
+                            </div>
+                            <div className="border-t ${isDark ? 'border-slate-700' : 'border-slate-200'} px-4 py-2">
+                                <p className={`text-xs text-center mb-2 uppercase ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Switch Theme</p>
+                                <div className="space-y-1">
+                                    <button onClick={() => LayoutChanage("Layout1")} className={`w-full text-center text-sm py-1.5 rounded ${isDark ? 'hover:bg-slate-700 text-slate-300' : 'hover:bg-slate-100 text-slate-700'}`}>Theme 1 (Pro)</button>
+                                    <button onClick={() => LayoutChanage("Layout2")} className={`w-full text-center text-sm py-1.5 rounded ${isDark ? 'hover:bg-slate-700 text-slate-300' : 'hover:bg-slate-100 text-slate-700'}`}>Theme 2 (Gradient)</button>
+                                    <button onClick={() => LayoutChanage("Layout3")} className={`w-full text-center text-sm py-1.5 rounded font-mono ${isDark ? 'hover:bg-slate-700 text-slate-300' : 'hover:bg-slate-100 text-slate-700'}`}>Theme 3 (Hacker)</button>
+                                </div>
                             </div>
                         </div>
                     )}

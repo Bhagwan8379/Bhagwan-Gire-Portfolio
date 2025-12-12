@@ -4,6 +4,7 @@ import Resume from '../../src/assets/Bhagwan_Gire-Resume.pdf'
 
 const Navbar = ({ isDark, setIsDark, LayoutChanage }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const navLinks = ['home', 'projects', 'contact'];
 
@@ -52,22 +53,36 @@ const Navbar = ({ isDark, setIsDark, LayoutChanage }) => {
                             {isDark ? <Sun size={20} /> : <Moon size={20} />}
                         </button>
 
-                        <button
-                            className="p-1 hover:text-violet-500"
-                            onClick={() => LayoutChanage("Layout1")}
-                        >
-                            <Layout size={25} />
-                        </button>
-                    </div>
-
-                    {/* Mobile Toggle Button */}
-                    <div className="md:hidden flex items-center">
-                        <button
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="p-2 hover:text-purple-600 transition-colors"
-                        >
-                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                        </button>
+                        <div className="relative">
+                            <button
+                                className="p-1 hover:text-violet-500"
+                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            >
+                                <Layout size={25} />
+                            </button>
+                            {isDropdownOpen && (
+                                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-700">
+                                    <button
+                                        onClick={() => { LayoutChanage("Layout1"); setIsDropdownOpen(false); }}
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 font-sans"
+                                    >
+                                        Theme 1 (Professional)
+                                    </button>
+                                    <button
+                                        onClick={() => { LayoutChanage("Layout2"); setIsDropdownOpen(false); }}
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 font-sans"
+                                    >
+                                        Theme 2 (Gradient)
+                                    </button>
+                                    <button
+                                        onClick={() => { LayoutChanage("Layout3"); setIsDropdownOpen(false); }}
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 font-mono"
+                                    >
+                                        Theme 3 (Hacker)
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,7 +112,7 @@ const Navbar = ({ isDark, setIsDark, LayoutChanage }) => {
                         Resume
                     </a>
 
-                    <div className="flex space-x-4 items-center justify-center pt-2">
+                    <div className="flex flex-col space-y-4 items-center justify-center pt-2">
                         <button
                             onClick={() => setIsDark(!isDark)}
                             className="p-2 rounded-full bg-purple-600/10 hover:bg-purple-600/20 transition-colors"
@@ -105,12 +120,29 @@ const Navbar = ({ isDark, setIsDark, LayoutChanage }) => {
                             {isDark ? <Sun size={20} /> : <Moon size={20} />}
                         </button>
 
-                        <button
-                            className="p-1 hover:text-violet-500"
-                            onClick={() => LayoutChanage("Layout1")}
-                        >
-                            <Layout size={25} />
-                        </button>
+                        <div className="w-full border-t border-gray-500/30 pt-4 mt-2">
+                            <p className="text-xs text-center mb-2 opacity-50 uppercase">Switch Theme</p>
+                            <div className="flex flex-col space-y-2">
+                                <button
+                                    onClick={() => LayoutChanage("Layout1")}
+                                    className="block w-full text-center px-4 py-2 text-sm hover:bg-gray-100/10 rounded"
+                                >
+                                    Theme 1 (Professional)
+                                </button>
+                                <button
+                                    onClick={() => LayoutChanage("Layout2")}
+                                    className="block w-full text-center px-4 py-2 text-sm hover:bg-gray-100/10 rounded"
+                                >
+                                    Theme 2 (Gradient)
+                                </button>
+                                <button
+                                    onClick={() => LayoutChanage("Layout3")}
+                                    className="block w-full text-center px-4 py-2 text-sm hover:bg-gray-100/10 rounded font-mono"
+                                >
+                                    Theme 3 (Hacker)
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
