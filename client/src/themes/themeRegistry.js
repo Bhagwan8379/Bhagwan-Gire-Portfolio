@@ -27,20 +27,20 @@ import FooterTheme3 from '../Theme3/Footer';
 export const themeRegistry = {
     // Mapping internal layout names to component sets
     "Layout1": {
-        Navbar: NavbarTheme1,
-        Hero: HeroTheme1,
-        About: AboutTheme1,
-        Projects: ProjectsTheme1,
-        Contact: ContactTheme1,
-        Footer: FooterTheme1,
-    },
-    "Layout2": {
         Navbar: NavbarDefault,
         Hero: HeroDefault,
         About: AboutDefault,
         Projects: ProjectsDefault,
         Contact: ContactDefault,
         Footer: FooterDefault,
+    },
+    "Layout2": {
+        Navbar: NavbarTheme1,
+        Hero: HeroTheme1,
+        About: AboutTheme1,
+        Projects: ProjectsTheme1,
+        Contact: ContactTheme1,
+        Footer: FooterTheme1,
     },
     "Layout3": {
         Navbar: NavbarTheme3,

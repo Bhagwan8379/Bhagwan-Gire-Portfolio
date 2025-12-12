@@ -93,13 +93,14 @@ const Navbar = ({ isDark, setIsDark, layout, LayoutChanage }) => {
                                         onClick={() => { LayoutChanage("Layout1"); setIsDropdownOpen(false); }}
                                         className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 font-sans"
                                     >
-                                        Theme 1 (Professional)
+                                        Theme 2 (Gradient)
                                     </button>
                                     <button
                                         onClick={() => { LayoutChanage("Layout2"); setIsDropdownOpen(false); }}
                                         className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 font-sans"
                                     >
-                                        Theme 2 (Gradient)
+                                        Theme 1 (Professional)
+
                                     </button>
                                     <button
                                         onClick={() => { LayoutChanage("Layout3"); setIsDropdownOpen(false); }}

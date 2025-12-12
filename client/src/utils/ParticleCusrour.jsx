@@ -176,11 +176,37 @@
 
 
 import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 const ParticleCursor = () => {
     const canvasRef = useRef(null);
     const particles = useRef([]);
     const mouse = useRef({ x: 0, y: 0 });
+    const { layout } = useSelector(state => state.auth);
+
+    // Default to Pink (Layout1 style) as requested for initial state
+    const themeConfig = useRef({ min: 280, max: 340 });
+
+    useEffect(() => {
+        switch (layout) {
+            case 'Layout1':
+                // Pink/Violet
+                themeConfig.current = { min: 280, max: 340 };
+                break;
+            case 'Layout2':
+                // Blue/Cyan/Teal
+                themeConfig.current = { min: 180, max: 240 };
+                break;
+            case 'Layout3':
+                // Green/Lime (Hacker)
+                themeConfig.current = { min: 80, max: 140 };
+                break;
+            default:
+                // Default fallback (Pink)
+                themeConfig.current = { min: 280, max: 340 };
+                break;
+        }
+    }, [layout]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -199,7 +225,9 @@ const ParticleCursor = () => {
 
             // Reduce density from 10 to 3
             for (let i = 0; i < 3; i++) {
-                const hue = Math.floor(Math.random() * 40) + 280; // pink-violet range: 280–320
+                const { min, max } = themeConfig.current;
+                const hue = Math.floor(Math.random() * (max - min + 1)) + min;
+
                 particles.current.push({
                     x: e.clientX,
                     y: e.clientY,
@@ -220,14 +248,16 @@ const ParticleCursor = () => {
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            particles.current.forEach((p, index) => {
+            // Iterate backwards to safely remove items
+            for (let i = particles.current.length - 1; i >= 0; i--) {
+                const p = particles.current[i];
                 p.x += p.speedX;
                 p.y += p.speedY;
                 p.alpha -= 0.015; // Slightly faster fade
 
                 if (p.alpha <= 0) {
-                    particles.current.splice(index, 1);
-                    return;
+                    particles.current.splice(i, 1);
+                    continue;
                 }
 
                 ctx.beginPath();
@@ -236,7 +266,7 @@ const ParticleCursor = () => {
                 ctx.shadowColor = `hsla(${p.hue}, 100%, 70%, ${p.alpha})`;
                 ctx.shadowBlur = 15;
                 ctx.fill();
-            });
+            }
 
             requestAnimationFrame(animate);
         };
