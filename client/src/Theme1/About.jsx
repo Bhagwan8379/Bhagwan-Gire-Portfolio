@@ -7,6 +7,7 @@ const About = ({ isDark }) => {
 
     const { data, isError, error } = useGetAllEducationQuery()
 
+
     useEffect(() => {
         if (isError) {
             toast.error("Something Wrong (Education)")
