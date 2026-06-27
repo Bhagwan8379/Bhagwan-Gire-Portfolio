@@ -102,8 +102,8 @@ const Contact = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {getAllMessages?.length > 0 ? (
-                            getAllMessages.map((contact) => (
+                        {data?.length > 0 ? (
+                            data.map((contact) => (
                                 <tr
                                     key={contact._id}
                                     className={`transition-all ${isDark ? 'hover:bg-white/10' : 'hover:bg-rose-100'

@@ -35,6 +35,7 @@ const Projects = () => {
             }
             AddProjects(fd)
             resetForm()
+            setModalOpen(false)
         }
     });
 
@@ -274,11 +275,6 @@ const Projects = () => {
                                     Cancel
                                 </button>
                                 <button
-                                    onClick={() => {
-                                        setModalOpen(false)
-                                        formik.resetForm()
-                                    }
-                                    }
                                     type="submit"
                                     className={clsx("px-5 py-2 rounded-lg text-white font-semibold transition-all duration-300 shadow-lg",
                                         isDark

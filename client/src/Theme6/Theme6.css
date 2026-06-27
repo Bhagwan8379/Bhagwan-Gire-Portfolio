@@ -1,0 +1,438 @@
+/* ============================================================
+   OBSIDIAN CODEX — Theme6 Design System
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+/* ──────────────────── Design Tokens ──────────────────── */
+:root {
+  --ob-bg:            #090909;
+  --ob-surface:       #111116;
+  --ob-surface-2:     #18181f;
+  --ob-border:        rgba(201, 168, 76, 0.18);
+  --ob-border-subtle: rgba(255, 255, 255, 0.06);
+
+  --ob-gold:          #C9A84C;
+  --ob-gold-light:    #E2C97E;
+  --ob-gold-dim:      rgba(201, 168, 76, 0.25);
+  --ob-gold-glow:     rgba(201, 168, 76, 0.12);
+
+  --ob-text:          #F2F2F8;
+  --ob-text-muted:    #6B6B7A;
+  --ob-text-dim:      #3A3A45;
+
+  --ob-silver:        #E8E8F0;
+  --ob-accent-blue:   #5B8DB8;
+
+  --ob-font-display:  'Cormorant Garamond', Georgia, serif;
+  --ob-font-ui:       'DM Sans', system-ui, sans-serif;
+  --ob-font-mono:     'JetBrains Mono', 'Courier New', monospace;
+
+  --ob-radius-sm:     4px;
+  --ob-radius-md:     10px;
+  --ob-radius-lg:     20px;
+  --ob-radius-pill:   999px;
+
+  --ob-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ob-ease-gold:     cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ob-transition:    0.4s var(--ob-ease-gold);
+
+  --ob-z-nav:         100;
+  --ob-z-modal:       200;
+  --ob-z-cursor:      999;
+}
+
+/* ──────────────────── Theme Scope ──────────────────── */
+.theme-obsidian {
+  background-color: var(--ob-bg);
+  color: var(--ob-text);
+  font-family: var(--ob-font-ui);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ──────────────────── Custom Cursor Trail ──────────────────── */
+.ob-cursor {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ob-gold);
+  pointer-events: none;
+  z-index: var(--ob-z-cursor);
+  mix-blend-mode: screen;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+}
+
+.ob-cursor-ring {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--ob-gold);
+  pointer-events: none;
+  z-index: var(--ob-z-cursor);
+  transform: translate(-50%, -50%);
+  opacity: 0.6;
+  transition: width 0.2s, height 0.2s, opacity 0.2s;
+}
+
+/* ──────────────────── Typography ──────────────────── */
+.ob-display {
+  font-family: var(--ob-font-display);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+}
+
+.ob-label {
+  font-family: var(--ob-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ob-gold);
+}
+
+.ob-body {
+  font-family: var(--ob-font-ui);
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--ob-text-muted);
+}
+
+/* ──────────────────── Gold Divider ──────────────────── */
+.ob-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ob-gold), transparent);
+  opacity: 0.5;
+}
+
+.ob-divider-v {
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--ob-gold), transparent);
+}
+
+/* ──────────────────── Glassmorphism Panel ──────────────────── */
+.ob-glass {
+  background: rgba(17, 17, 22, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--ob-border);
+  border-radius: var(--ob-radius-lg);
+}
+
+/* ──────────────────── Gold Glow Card ──────────────────── */
+.ob-card {
+  background: var(--ob-surface);
+  border: 1px solid var(--ob-border-subtle);
+  border-radius: var(--ob-radius-md);
+  transition: border-color var(--ob-transition), box-shadow var(--ob-transition);
+  overflow: hidden;
+}
+
+.ob-card:hover {
+  border-color: var(--ob-border);
+  box-shadow: 0 0 40px var(--ob-gold-glow), 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* ──────────────────── Magnetic Button ──────────────────── */
+.ob-btn-magnetic {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 40px;
+  font-family: var(--ob-font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ob-bg);
+  background: var(--ob-gold);
+  border: none;
+  border-radius: var(--ob-radius-pill);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s var(--ob-ease-out-expo), box-shadow 0.2s;
+  will-change: transform;
+}
+
+.ob-btn-magnetic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ob-gold-light);
+  transform: translateX(-101%);
+  transition: transform 0.35s var(--ob-ease-gold);
+}
+
+.ob-btn-magnetic:hover::before {
+  transform: translateX(0);
+}
+
+.ob-btn-magnetic:hover {
+  box-shadow: 0 0 30px var(--ob-gold-dim), 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.ob-btn-magnetic span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ──────────────────── Outline Button ──────────────────── */
+.ob-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 30px;
+  font-family: var(--ob-font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ob-gold);
+  background: transparent;
+  border: 1px solid var(--ob-border);
+  border-radius: var(--ob-radius-pill);
+  cursor: pointer;
+  transition: background var(--ob-transition), border-color var(--ob-transition), color var(--ob-transition);
+}
+
+.ob-btn-outline:hover {
+  background: var(--ob-gold-glow);
+  border-color: var(--ob-gold);
+  color: var(--ob-gold-light);
+}
+
+/* ──────────────────── Input Fields ──────────────────── */
+.ob-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--ob-border-subtle);
+  padding: 14px 0;
+  font-family: var(--ob-font-ui);
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--ob-text);
+  outline: none;
+  transition: border-color var(--ob-transition);
+}
+
+.ob-input:focus {
+  border-bottom-color: var(--ob-gold);
+}
+
+.ob-input::placeholder {
+  color: var(--ob-text-dim);
+}
+
+.ob-input-label {
+  display: block;
+  font-family: var(--ob-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ob-text-muted);
+  margin-bottom: 4px;
+  transition: color 0.3s;
+}
+
+/* ──────────────────── Scroll Progress Bar ──────────────────── */
+.ob-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ob-gold), var(--ob-gold-light));
+  transform-origin: left;
+  z-index: calc(var(--ob-z-nav) + 10);
+  width: 100%;
+  transform: scaleX(0);
+}
+
+/* ──────────────────── Section Utilities ──────────────────── */
+.ob-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.ob-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+  .ob-container {
+    padding: 0 20px;
+  }
+}
+
+/* ──────────────────── Number/Index Label ──────────────────── */
+.ob-index {
+  font-family: var(--ob-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ob-text-dim);
+}
+
+/* ──────────────────── Tech Tag ──────────────────── */
+.ob-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  font-family: var(--ob-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ob-gold);
+  border: 1px solid var(--ob-border);
+  border-radius: var(--ob-radius-pill);
+  background: var(--ob-gold-glow);
+  text-transform: uppercase;
+}
+
+/* ──────────────────── Skill Arc Container ──────────────────── */
+.ob-skill-arc svg circle {
+  transition: stroke-dashoffset 1.5s var(--ob-ease-out-expo);
+}
+
+/* ──────────────────── Project Card Border Trace ──────────────────── */
+.ob-card-trace {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--ob-radius-md);
+  pointer-events: none;
+}
+
+.ob-card-trace svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.ob-card-trace rect {
+  fill: none;
+  stroke: var(--ob-gold);
+  stroke-width: 1.5;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  transition: stroke-dashoffset 0.6s var(--ob-ease-gold);
+  rx: 10;
+}
+
+.ob-card:hover .ob-card-trace rect {
+  stroke-dashoffset: 0;
+}
+
+/* ──────────────────── Image Iris Reveal ──────────────────── */
+.ob-iris-wrap {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.ob-iris-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--ob-bg);
+  border-radius: 50%;
+  transform-origin: center;
+}
+
+/* ──────────────────── Horizontal Scroll Section ──────────────────── */
+.ob-h-panels {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+}
+
+.ob-h-panel {
+  min-width: 100vw;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10vw;
+}
+
+/* ──────────────────── Gold Orbit Ring ──────────────────── */
+.ob-orbit {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--ob-border);
+  animation: ob-orbit-spin 30s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes ob-orbit-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ──────────────────── Particle Canvas ──────────────────── */
+#ob-particle-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+/* ──────────────────── Noise Texture Overlay ──────────────────── */
+.ob-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* ──────────────────── No Scrollbar ──────────────────── */
+.ob-no-scrollbar::-webkit-scrollbar { display: none; }
+.ob-no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ──────────────────── Clip-path Reveal ──────────────────── */
+.ob-clip-reveal {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.9s var(--ob-ease-out-expo);
+}
+
+.ob-clip-reveal.is-visible {
+  clip-path: inset(0% 0 0 0);
+}
+
+/* ──────────────────── Character Span (for SplitType) ──────────────────── */
+.ob-char-wrap {
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1;
+  vertical-align: bottom;
+}
+
+/* ──────────────────── Footer Grid Lines ──────────────────── */
+.ob-grid-line {
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--ob-gold));
+  transform-origin: bottom;
+  transform: scaleY(0);
+  opacity: 0.4;
+}
+
+/* ──────────────────── Responsive ──────────────────── */
+@media (max-width: 1024px) {
+  .ob-h-panel {
+    min-width: 100vw;
+    padding: 0 5vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .ob-display {
+    line-height: 1.05;
+  }
+}

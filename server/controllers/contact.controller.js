@@ -22,18 +22,57 @@ exports.sendMessage = expressAsyncHandler(async (req, res) => {
         email: process.env.MY_EMAIL,
         subject: "New Message From Portfolio!",
         message: `
-        <div style="background: linear-gradient(135deg, #B799FF, #FFB6C1); padding: 50px; border-radius: 25px; max-width: 700px; margin: auto; font-family: 'Arial', sans-serif; box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);">
+        <div style="background: linear-gradient(145deg, #0f0c20, #15102a); padding: 40px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.08); max-width: 640px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);">
             <div style="text-align: center;">
-                <img src="https://cdn.vectorstock.com/i/1000v/05/98/new-update-neon-text-sign-vector-24280598.jpg" alt="New Message" style="width: 100%; max-width: 400px; border-radius: 50px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); margin-bottom: 30px; transition: transform 0.3s ease-in-out;" />
-                <h1 style="color: #4B0082; font-size: 36px; font-weight: bold; margin-top: 20px;">
-                    ✨ New Message from Your Portfolio! ✨
-                </h1>
-                <div style="margin-top: 25px; width: 80%; height: 2px; background: linear-gradient(to right, #8A2BE2, #FF6347); margin: 20px auto;"></div>
-                <div style="padding: 20px; border-radius: 12px; margin-top: 20px;">
-                    <p style="color: #FFFFFF; font-size: 16px;"><strong>Name:</strong>${name} </p>
-                    <p style="color: #FFFFFF; font-size: 16px;"><strong>Email:</strong>${email} </p>
-                    <p style="color: #FFFFFF; font-size: 16px;"><strong>Message:</strong> ${message}</p>
+                <div style="display: inline-block; padding: 16px; background: rgba(139, 92, 246, 0.1); border-radius: 50%; border: 1px solid rgba(139, 92, 246, 0.2); margin-bottom: 20px;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
                 </div>
+                <h1 style="color: #ffffff; font-size: 26px; font-weight: 700; letter-spacing: 0.5px; margin: 0 0 10px 0;">
+                    New Message Received!
+                </h1>
+                <p style="color: #a78bfa; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 25px 0;">
+                    Portfolio Contact Form
+                </p>
+                <div style="width: 60px; height: 3px; background: linear-gradient(to right, #8b5cf6, #6366f1); margin: 0 auto 30px auto; border-radius: 999px;"></div>
+            </div>
+            
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 24px; margin-bottom: 30px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 8px 0; color: rgba(255, 255, 255, 0.5); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; width: 100px;">
+                            From
+                        </td>
+                        <td style="padding: 8px 0; color: #ffffff; font-size: 15px; font-weight: 600;">
+                            ${name}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px 0; color: rgba(255, 255, 255, 0.5); font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
+                            Email
+                        </td>
+                        <td style="padding: 8px 0; color: #a78bfa; font-size: 14px; font-weight: 500;">
+                            <a href="mailto:${email}" style="color: #a78bfa; text-decoration: none; border-bottom: 1px dashed rgba(167, 139, 250, 0.4);">${email}</a>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div style="margin: 20px 0 15px 0; height: 1px; background: rgba(255, 255, 255, 0.08);"></div>
+                
+                <div>
+                    <p style="color: rgba(255, 255, 255, 0.5); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0;">
+                        Message Content
+                    </p>
+                    <div style="background: rgba(139, 92, 246, 0.04); border-left: 3px solid #8b5cf6; padding: 16px 20px; border-radius: 0 12px 12px 0; color: rgba(255, 255, 255, 0.9); font-size: 14px; line-height: 1.6; font-style: italic;">
+                        "${message}"
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; color: rgba(255, 255, 255, 0.3); font-size: 11px; letter-spacing: 0.5px;">
+                This email was automatically generated by your portfolio server.
             </div>
         </div>
     `

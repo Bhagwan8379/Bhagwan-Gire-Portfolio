@@ -1,16 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Mail, Github, Linkedin, X } from 'lucide-react';
+import { Mail, Github, Linkedin, X, Mic } from 'lucide-react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import clsx from 'clsx';
-import { useAdminLoginMutation } from '../redux/api/authApi';
+import { useAdminLoginMutation, useVoiceLoginAdminMutation } from '../redux/api/authApi';
 import { toast } from 'sonner';
 import { Meta, useNavigate } from 'react-router-dom';
 
 const Footer = ({ isDark }) => {
     const [showModal, setShowModal] = useState(false);
-    const [Login, { isSuccess, isLoading, isError, error }] = useAdminLoginMutation()
-    const navigate = useNavigate()
+    const [Login, { isSuccess, isLoading, isError, error }] = useAdminLoginMutation();
+    const [voiceLogin, { isLoading: isProcessingVoice, isError: isVoiceError }] = useVoiceLoginAdminMutation();
+    const navigate = useNavigate();
+
+    // Voice Login State
+    const [isRecording, setIsRecording] = useState(false);
+    const [spokenText, setSpokenText] = useState("");
+    const [voiceError, setVoiceError] = useState("");
+    const mediaRecorderRef = useRef(null);
+    const speechRecognitionRef = useRef(null);
+    const audioChunksRef = useRef([]);
+    const spokenTextRef = useRef("");
+
+    // NOTE: This must match the sentence on the backend
+    const ADMIN_SECRET_SENTENCE = "hi jarvis";
 
 
     const handleMouseDown = (e) => {
@@ -27,11 +40,131 @@ const Footer = ({ isDark }) => {
             password: yup.string().min(6, 'Minimum 6 characters').required('Enter Password'),
         }),
         onSubmit: (values, { resetForm }) => {
-            Login(values)
+            Login(values);
             resetForm();
             setShowModal(false);
         },
     });
+
+    const stopRecording = () => {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
+            mediaRecorderRef.current.stop();
+        }
+        if (speechRecognitionRef.current) {
+            speechRecognitionRef.current.stop();
+        }
+        setIsRecording(false);
+    };
+
+    const handleVoiceLoginClick = async () => {
+        if (isRecording) {
+            stopRecording();
+            return;
+        }
+
+        setSpokenText("");
+        spokenTextRef.current = "";
+        setVoiceError("");
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            setVoiceError("Web Speech API is not supported by your browser (e.g., Firefox, Opera). Please use Google Chrome, Safari, or Microsoft Edge.");
+            toast.error("Speech Recognition is not supported by this browser.");
+            return;
+        }
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            setVoiceError("Voice recognition/microphone features are not supported or secure context (HTTPS) is missing.");
+            toast.error("Microphone features are not supported by your browser.");
+            return;
+        }
+
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            setIsRecording(true);
+            toast.success("🎙️ Listening... Please speak the sentence.");
+
+            // 1. Media Recorder for audio capture
+            mediaRecorderRef.current = new MediaRecorder(stream);
+            audioChunksRef.current = [];
+            mediaRecorderRef.current.ondataavailable = (event) => {
+                audioChunksRef.current.push(event.data);
+            };
+            mediaRecorderRef.current.onstop = async () => {
+                const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+
+                // Sanitized matching to ignore case, punctuation, and extra spaces
+                const cleanSpoken = spokenTextRef.current.toLowerCase().replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, " ").trim();
+                const cleanSecret = ADMIN_SECRET_SENTENCE.toLowerCase().replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, " ").trim();
+
+                if (cleanSpoken !== cleanSecret) {
+                    const whatWasSpoken = spokenTextRef.current ? `"${spokenTextRef.current}"` : "nothing";
+                    toast.error(`Sentence did not match. You said: ${whatWasSpoken}`);
+                    setVoiceError(`Sentence did not match. You said: ${whatWasSpoken}`);
+                    setIsRecording(false); // Reset to allow another attempt
+                    return;
+                }
+
+                // Sentence matched, now send to backend for verification
+                try {
+                    const response = await voiceLogin(audioBlob).unwrap();
+                    if (response.success) {
+                        toast.success("✅ Voice Login Success!");
+                        setShowModal(false);
+                        navigate("/admin");
+                    } else {
+                        throw new Error(response.message || "Voice verification failed.");
+                    }
+                } catch (err) {
+                    const errorMessage = err.data?.message || err.message || "Voice login failed.";
+                    setVoiceError(errorMessage);
+                    toast.error(`❌ ${errorMessage}`);
+                }
+            };
+
+            // 2. Web Speech API for live transcription
+            speechRecognitionRef.current = new SpeechRecognition();
+            speechRecognitionRef.current.continuous = true;
+            speechRecognitionRef.current.interimResults = true;
+            speechRecognitionRef.current.onresult = (event) => {
+                const transcript = Array.from(event.results)
+                    .map(result => result[0])
+                    .map(result => result.transcript)
+                    .join('');
+                setSpokenText(transcript);
+                spokenTextRef.current = transcript; // Set ref to avoid stale closure
+            };
+            speechRecognitionRef.current.onerror = (event) => {
+                setVoiceError(`Speech recognition error: ${event.error}`);
+                stopRecording();
+            };
+
+            mediaRecorderRef.current.start();
+            speechRecognitionRef.current.start();
+
+        } catch (err) {
+            console.error("Microphone error:", err);
+            let msg = "Microphone access was denied. Please allow microphone access in your browser settings.";
+            if (err.name !== "NotAllowedError" && err.name !== "PermissionDeniedError") {
+                msg = err.message || msg;
+            }
+            setVoiceError(msg);
+            toast.error(`❌ ${msg}`);
+            setIsRecording(false);
+        }
+    };
+
+    // Cleanup on component unmount
+    useEffect(() => {
+        return () => {
+            if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+                mediaRecorderRef.current.stop();
+            }
+            if (speechRecognitionRef.current) {
+                speechRecognitionRef.current.stop();
+            }
+        };
+    }, []);
 
 
     useEffect(() => {
@@ -149,8 +282,6 @@ const Footer = ({ isDark }) => {
             </footer>
 
             {/* Admin Login Modal */}
-
-
             {showModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
                     <div
@@ -161,7 +292,7 @@ const Footer = ({ isDark }) => {
                     >
                         {/* Close Button */}
                         <button
-                            onClick={() => setShowModal(false)}
+                            onClick={() => { setShowModal(false); stopRecording(); }}
                             className="absolute top-3 right-3 cursor-pointer text-gray-400 hover:text-red-500 transition"
                         >
                             <X size={20} />
@@ -172,6 +303,43 @@ const Footer = ({ isDark }) => {
                         >
                             Admin Login
                         </h2>
+
+                        {/* Voice Login Section */}
+                        <div className="text-center mb-4">
+                            <button
+                                type="button"
+                                onClick={handleVoiceLoginClick}
+                                disabled={isProcessingVoice}
+                                className={clsx(
+                                    "px-4 py-2 rounded-full text-white font-semibold transition-all duration-300 flex items-center justify-center gap-2 mx-auto",
+                                    {
+                                        "bg-green-500 hover:bg-green-600": !isRecording && !isProcessingVoice,
+                                        "bg-red-500 hover:bg-red-600 animate-pulse": isRecording,
+                                        "bg-gray-400 cursor-not-allowed": isProcessingVoice,
+                                    }
+                                )}
+                            >
+                                <Mic size={20} />
+                                {isRecording ? "Stop Recording" : isProcessingVoice ? "Verifying..." : "Login with Voice"}
+                            </button>
+                            {isRecording && <p className="text-sm text-green-400 mt-2 animate-pulse">Listening...</p>}
+                            <p className="text-sm text-gray-400 mt-2 h-5">{spokenText}</p>
+                            {voiceError && <p className="text-sm text-red-400 mt-1">{voiceError}</p>}
+                        </div>
+
+
+                        <div className="relative my-4">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-gray-600"></div>
+                            </div>
+                            <div className="relative flex justify-center text-sm">
+                                <span className={`px-2 ${isDark ? 'bg-[#1a1a1a] text-gray-400' : 'bg-white text-gray-500'}`}>
+                                    Or login with credentials
+                                </span>
+                            </div>
+                        </div>
+
+
                         <form onSubmit={formik.handleSubmit} className="space-y-4">
                             {/* Email */}
                             <div>
@@ -179,7 +347,6 @@ const Footer = ({ isDark }) => {
                                 <input
                                     type="text"
                                     name="username"
-
                                     placeholder="Enter UserName"
                                     {...formik.getFieldProps('username')}
                                     className={clsx(
@@ -190,7 +357,6 @@ const Footer = ({ isDark }) => {
                                         formik.touched.username && formik.errors.username && 'border-red-500 ring-1 ring-red-400'
                                     )}
                                 />
-
                             </div>
 
                             {/* Password */}
@@ -216,7 +382,6 @@ const Footer = ({ isDark }) => {
                                         formik.touched.password && formik.errors.password && 'border-red-500 ring-1 ring-red-400'
                                     )}
                                 />
-
                             </div>
 
                             <button
@@ -226,13 +391,11 @@ const Footer = ({ isDark }) => {
                                 Login
                             </button>
                         </form>
-                    </div >
-                </div >
+                    </div>
+                </div>
             )}
         </>
     );
 };
 
 export default Footer;
-
-

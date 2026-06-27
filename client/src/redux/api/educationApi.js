@@ -1,8 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
+const getBackendUrl = () => {
+    if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+        return "http://localhost:5000";
+    }
+    return import.meta.env.VITE_BACKEND_URL || "https://bhagwan-gire-portfolio-server.vercel.app";
+};
+
 export const educationApi = createApi({
     reducerPath: "educationApi",
-    baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_BACKEND_URL}/api/education`, credentials: "include" }),
+    baseQuery: fetchBaseQuery({ baseUrl: `${getBackendUrl()}/api/education`, credentials: "include" }),
     tagTypes: ["education"],
     endpoints: (builder) => {
         return {

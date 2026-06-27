@@ -61,24 +61,25 @@ const Navbar = ({ isDark, setIsDark, LayoutChanage }) => {
                                 <Layout size={25} />
                             </button>
                             {isDropdownOpen && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-700">
+                                <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-700">
                                     <button
                                         onClick={() => { LayoutChanage("Layout1"); setIsDropdownOpen(false); }}
                                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 font-sans"
                                     >
-                                        Theme 2 (Gradient)
+                                        Professional
                                     </button>
+
                                     <button
-                                        onClick={() => { LayoutChanage("Layout2"); setIsDropdownOpen(false); }}
+                                        onClick={() => { LayoutChanage("Layout6"); setIsDropdownOpen(false); }}
                                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 font-sans"
                                     >
-                                        Theme 1 (Professional)
+                                        Obsidian Codex ✦
                                     </button>
                                     <button
-                                        onClick={() => { LayoutChanage("Layout3"); setIsDropdownOpen(false); }}
-                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 font-mono"
+                                        onClick={() => { LayoutChanage("Layout7"); setIsDropdownOpen(false); }}
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 font-sans"
                                     >
-                                        Theme 3 (Hacker)
+                                        Aura Glassmorphism
                                     </button>
                                 </div>
                             )}
@@ -124,22 +125,23 @@ const Navbar = ({ isDark, setIsDark, LayoutChanage }) => {
                             <p className="text-xs text-center mb-2 opacity-50 uppercase">Switch Theme</p>
                             <div className="flex flex-col space-y-2">
                                 <button
-                                    onClick={() => LayoutChanage("Layout1")}
+                                    onClick={() => { LayoutChanage("Layout1"); setIsMenuOpen(false); }}
                                     className="block w-full text-center px-4 py-2 text-sm hover:bg-gray-100/10 rounded"
                                 >
-                                    Theme 1 (Professional)
+                                    Professional
                                 </button>
+
                                 <button
-                                    onClick={() => LayoutChanage("Layout2")}
+                                    onClick={() => { LayoutChanage("Layout6"); setIsMenuOpen(false); }}
                                     className="block w-full text-center px-4 py-2 text-sm hover:bg-gray-100/10 rounded"
                                 >
-                                    Theme 2 (Gradient)
+                                    Obsidian Codex ✦
                                 </button>
                                 <button
-                                    onClick={() => LayoutChanage("Layout3")}
-                                    className="block w-full text-center px-4 py-2 text-sm hover:bg-gray-100/10 rounded font-mono"
+                                    onClick={() => { LayoutChanage("Layout7"); setIsMenuOpen(false); }}
+                                    className="block w-full text-center px-4 py-2 text-sm hover:bg-gray-100/10 rounded"
                                 >
-                                    Theme 3 (Hacker)
+                                    Aura Glassmorphism
                                 </button>
                             </div>
                         </div>

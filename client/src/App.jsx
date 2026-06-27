@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ErrorBoundary } from "react-error-boundary"
 import { useDispatch } from 'react-redux';
-import { Toaster } from 'sonner';
+import ThemedToaster from './utils/ThemedToaster';
 import FallBackError from './utils/FallBackError';
 import Loader from './pages/Loader';
 const Home = lazy(() => import('./pages/Home'));
@@ -26,7 +26,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <ParticleCusrour />
-      <Toaster position='top-right' />
+      <ThemedToaster />
       <Routes>
         <Route path='/' element={<Suspense fallback={<Loader />}>
           <ErrorBoundary FallbackComponent={FallBackError}>

@@ -190,7 +190,7 @@ const ParticleCursor = () => {
     useEffect(() => {
         switch (layout) {
             case 'Layout1':
-                // Pink/Violet
+                // Pink/Violet for Professional Theme
                 themeConfig.current = { min: 280, max: 340 };
                 break;
             case 'Layout2':
@@ -200,6 +200,18 @@ const ParticleCursor = () => {
             case 'Layout3':
                 // Green/Lime (Hacker)
                 themeConfig.current = { min: 80, max: 140 };
+                break;
+            case 'Layout4':
+                // Cyan/Purple/Pink (3D Theme) - Mix of cyan and purple
+                themeConfig.current = { min: 260, max: 320 };
+                break;
+            case 'Layout6':
+                // Gold/Amber for Obsidian Codex Theme (refined range)
+                themeConfig.current = { min: 35, max: 50 };
+                break;
+            case 'Layout7':
+                // Aura Glassmorphism Theme - Glowing violet/indigo and amber sparks
+                themeConfig.current = { min: 240, max: 280, secondaryMin: 35, secondaryMax: 48 };
                 break;
             default:
                 // Default fallback (Pink)
@@ -225,9 +237,16 @@ const ParticleCursor = () => {
 
             // Reduce density from 10 to 3
             for (let i = 0; i < 3; i++) {
-                const { min, max } = themeConfig.current;
-                const hue = Math.floor(Math.random() * (max - min + 1)) + min;
-
+                const config = themeConfig.current;
+                let hue;
+                if (config.secondaryMin !== undefined) {
+                    // Alternating/mixing between primary (violet/indigo) and secondary (amber) colors
+                    hue = Math.random() > 0.5
+                        ? Math.floor(Math.random() * (config.max - config.min + 1)) + config.min
+                        : Math.floor(Math.random() * (config.secondaryMax - config.secondaryMin + 1)) + config.secondaryMin;
+                } else {
+                    hue = Math.floor(Math.random() * (config.max - config.min + 1)) + config.min;
+                }
                 particles.current.push({
                     x: e.clientX,
                     y: e.clientY,

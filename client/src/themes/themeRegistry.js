@@ -1,5 +1,5 @@
 
-// Default Theme Components (Layout2 or default)
+// Default Theme Components (Professional / default)
 import NavbarDefault from '../pages/Navbar';
 import HeroDefault from '../pages/hero';
 import AboutDefault from '../pages/About';
@@ -8,24 +8,24 @@ import ContactDefault from '../pages/Contact';
 import FooterDefault from '../pages/Footer';
 
 
-// Theme 1 Components (Layout1)
-import NavbarTheme1 from '../Theme1/Navbar';
-import HeroTheme1 from '../Theme1/Hero';
-import AboutTheme1 from '../Theme1/About';
-import ProjectsTheme1 from '../Theme1/Projects';
-import ContactTheme1 from '../Theme1/Contact';
-import FooterTheme1 from '../Theme1/Footer';
 
-// Theme 3 Components (Layout3 - Hacker Theme)
-import NavbarTheme3 from '../Theme3/Navbar';
-import HeroTheme3 from '../Theme3/Hero';
-import AboutTheme3 from '../Theme3/About';
-import ProjectsTheme3 from '../Theme3/Projects';
-import ContactTheme3 from '../Theme3/Contact';
-import FooterTheme3 from '../Theme3/Footer';
+// Theme 6 Components (Layout6 - Obsidian Codex)
+import NavbarTheme6 from '../Theme6/Navbar';
+import HeroTheme6 from '../Theme6/Hero';
+import AboutTheme6 from '../Theme6/About';
+import ProjectsTheme6 from '../Theme6/Projects';
+import ContactTheme6 from '../Theme6/Contact';
+import FooterTheme6 from '../Theme6/Footer';
+
+// Theme 7 Components (Layout7 - Aura Glassmorphism Theme)
+import NavbarTheme7 from '../Theme7/Navbar';
+import HeroTheme7 from '../Theme7/Hero';
+import AboutTheme7 from '../Theme7/About';
+import ProjectsTheme7 from '../Theme7/Projects';
+import ContactTheme7 from '../Theme7/Contact';
+import FooterTheme7 from '../Theme7/Footer';
 
 export const themeRegistry = {
-    // Mapping internal layout names to component sets
     "Layout1": {
         Navbar: NavbarDefault,
         Hero: HeroDefault,
@@ -34,21 +34,22 @@ export const themeRegistry = {
         Contact: ContactDefault,
         Footer: FooterDefault,
     },
-    "Layout2": {
-        Navbar: NavbarTheme1,
-        Hero: HeroTheme1,
-        About: AboutTheme1,
-        Projects: ProjectsTheme1,
-        Contact: ContactTheme1,
-        Footer: FooterTheme1,
+
+    "Layout6": {
+        Navbar: NavbarTheme6,
+        Hero: HeroTheme6,
+        About: AboutTheme6,
+        Projects: ProjectsTheme6,
+        Contact: ContactTheme6,
+        Footer: FooterTheme6,
     },
-    "Layout3": {
-        Navbar: NavbarTheme3,
-        Hero: HeroTheme3,
-        About: AboutTheme3,
-        Projects: ProjectsTheme3,
-        Contact: ContactTheme3,
-        Footer: FooterTheme3,
+    "Layout7": {
+        Navbar: NavbarTheme7,
+        Hero: HeroTheme7,
+        About: AboutTheme7,
+        Projects: ProjectsTheme7,
+        Contact: ContactTheme7,
+        Footer: FooterTheme7,
     },
     "default": { // Fallback
         Navbar: NavbarDefault,
@@ -63,3 +64,4 @@ export const themeRegistry = {
 export const getTheme = (layoutName) => {
     return themeRegistry[layoutName] || themeRegistry["default"];
 };
+

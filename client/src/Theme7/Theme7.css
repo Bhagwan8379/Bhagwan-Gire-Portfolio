@@ -1,0 +1,223 @@
+/* ============================================================
+   AURA GLASSMORPHISM — Theme7 Design System
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@200;300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+/* ──────────────────── Design Tokens ──────────────────── */
+:root {
+  --aura-bg:            #020208;
+  --aura-bg-navy:       #050512;
+  --aura-surface:       rgba(10, 10, 22, 0.45);
+  --aura-border:        rgba(255, 255, 255, 0.08);
+  --aura-border-glow:   rgba(255, 255, 255, 0.15);
+
+  --aura-amber:         #f59e0b; /* Amber */
+  --aura-amber-glow:    rgba(245, 158, 11, 0.18);
+  --aura-amber-glow-soft: rgba(245, 158, 11, 0.05);
+  
+  --aura-purple:        #8b5cf6; /* Violet */
+  --aura-indigo:        #6366f1; /* Indigo */
+  --aura-cool-glow:     rgba(139, 92, 246, 0.2);
+
+  --aura-text:          #ffffff;
+  --aura-text-muted:    rgba(255, 255, 255, 0.5);
+  --aura-text-dim:      rgba(255, 255, 255, 0.25);
+
+  --aura-font-display:  'Playfair Display', Georgia, serif;
+  --aura-font-ui:       'Outfit', system-ui, sans-serif;
+  --aura-font-mono:     'Space Mono', monospace;
+
+  --aura-radius-sm:     6px;
+  --aura-radius-md:     12px;
+  --aura-radius-lg:     24px;
+  --aura-radius-pill:   999px;
+
+  --aura-ease:          cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --aura-ease-expo:     cubic-bezier(0.16, 1, 0.3, 1);
+  --aura-transition:    all 0.4s var(--aura-ease);
+}
+
+/* ──────────────────── Theme Scope ──────────────────── */
+.theme-aura {
+  background-color: var(--aura-bg);
+  color: var(--aura-text);
+  font-family: var(--aura-font-ui);
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ──────────────────── Glassmorphism ──────────────────── */
+.aura-glass {
+  background: var(--aura-surface);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid var(--aura-border);
+  border-radius: var(--aura-radius-lg);
+}
+
+.aura-glass-card {
+  background: rgba(12, 12, 26, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--aura-border);
+  border-radius: var(--aura-radius-md);
+  transition: var(--aura-transition);
+}
+
+.aura-glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 30px var(--aura-cool-glow), inset 0 0 12px rgba(255, 255, 255, 0.05);
+  transform: translateY(-4px);
+}
+
+/* ──────────────────── Custom Scrollbar ──────────────────── */
+body.theme-aura ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+body.theme-aura ::-webkit-scrollbar-track {
+  background: var(--aura-bg);
+}
+
+body.theme-aura ::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--aura-purple), var(--aura-indigo));
+  border-radius: 4px;
+}
+
+body.theme-aura ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #a78bfa, #818cf8);
+}
+
+/* ──────────────────── Animations ──────────────────── */
+
+/* Continuous Floating */
+@keyframes float-slow-1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(3deg); }
+}
+
+@keyframes float-slow-2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-25px) rotate(-4deg); }
+}
+
+@keyframes float-slow-3 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+.animate-float-1 {
+  animation: float-slow-1 6s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: float-slow-2 8s ease-in-out infinite;
+}
+
+.animate-float-3 {
+  animation: float-slow-3 5s ease-in-out infinite;
+}
+
+/* Rotating Star Animation */
+@keyframes rotate-star-anim {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-star-rotate {
+  animation: rotate-star-anim 16s linear infinite;
+}
+
+/* Pulsing Node */
+@keyframes pulse-node-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+    transform: scale(0.95);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(245, 158, 11, 0);
+    transform: scale(1.15);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+    transform: scale(0.95);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-node-glow 2s infinite;
+}
+
+/* Shimmer Sweep Animation */
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-150%) skewX(-25deg); }
+  100% { transform: translateX(150%) skewX(-25deg); }
+}
+
+.shimmer-trigger:hover .shimmer-bar {
+  animation: shimmer-sweep 1.2s ease-in-out infinite;
+}
+
+/* Concentric Ripples */
+@keyframes ripple-expand {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.ripple-circle {
+  position: absolute;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ripple-expand 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+/* 3D Glass Cube Rotating */
+@keyframes rotate-cube-3d {
+  0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+}
+
+.animate-cube-3d {
+  animation: rotate-cube-3d 20s linear infinite;
+}
+
+/* Typography styles */
+.aura-title-serif {
+  font-family: var(--aura-font-display);
+  font-weight: 400;
+}
+
+.aura-text-mono {
+  font-family: var(--aura-font-mono);
+}
+
+/* Scroll Snap/Transitions */
+.aura-section-reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s var(--aura-ease-out-expo), transform 0.8s var(--aura-ease-out-expo);
+}
+
+.aura-section-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Horizontal Scrollbar hide utility */
+.aura-hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.aura-hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

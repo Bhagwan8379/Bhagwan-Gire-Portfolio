@@ -22,6 +22,11 @@ const authSlice = createSlice({
         .addMatcher(authApi.endpoints.AdminLogin.matchFulfilled, (state, { payload }) => {
             state.admin = payload
         })
+        .addMatcher(authApi.endpoints.VoiceLoginAdmin.matchFulfilled, (state, { payload }) => {
+            if (payload.success) {
+                state.admin = payload.data;
+            }
+        })
         .addMatcher(authApi.endpoints.AdminLogout.matchFulfilled, (state, { payload }) => {
             localStorage.removeItem("Admin")
             state.admin = null
